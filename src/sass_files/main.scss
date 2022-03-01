@@ -1,0 +1,52 @@
+@import 'bootstrap/functions';
+
+// Override default primary colour.
+$primary: #ff5757;
+
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+@import 'bootstrap/root';
+@import 'bootstrap/utilities';
+@import 'bootstrap/reboot';
+@import 'bootstrap/type';
+@import 'bootstrap/images';
+@import 'bootstrap/containers';
+@import 'bootstrap/grid';
+@import 'bootstrap/helpers';
+@import 'bootstrap/buttons';
+@import 'bootstrap/button-group';
+@import 'bootstrap/card';
+@import 'bootstrap/forms';
+@import 'bootstrap/list-group';
+@import 'bootstrap/modal';
+@import 'bootstrap/navbar';
+@import 'bootstrap/nav';
+@import 'bootstrap/tables';
+@import 'bootstrap/accordion';
+@import 'bootstrap/alert';
+@import 'bootstrap/badge';
+@import 'bootstrap/carousel';
+@import 'bootstrap/close';
+@import 'bootstrap/dropdown';
+@import 'bootstrap/offcanvas';
+@import 'bootstrap/pagination';
+@import 'bootstrap/placeholders';
+@import 'bootstrap/popover';
+@import 'bootstrap/progress';
+@import 'bootstrap/spinners';
+@import 'bootstrap/toasts';
+@import 'bootstrap/tooltip';
+@import 'bootstrap/transitions';
+@import 'bootstrap/utilities/api';
+
+// Ensure button text is white.
+.btn-primary {
+  color: $white;
+}
+.btn-primary:hover {
+  color: $white;
+}
+
+.container-fluid {
+  max-width: 1140px;
+}
