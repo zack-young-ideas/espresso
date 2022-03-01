@@ -23,8 +23,8 @@ app.get('/', (req, res) => {
 
 if (require.main === module) {
   app.listen(port, () => {
-    console.log(`Listening on port ${port}...`)
+    console.log(`Listening on port ${port}...`); // eslint-disable-line
   });
 } else {
   module.exports = app;
-};
+}
