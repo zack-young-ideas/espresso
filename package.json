@@ -4,7 +4,7 @@
   "description": "Basic blogging website powered by Express",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "blog"
@@ -15,5 +15,12 @@
     "express": "^4.17.3",
     "express-nunjucks": "^2.2.5",
     "nunjucks": "^3.2.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.10.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "jest": "^27.5.1",
+    "selenium-webdriver": "^4.1.1"
   }
 }
