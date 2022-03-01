@@ -4,8 +4,12 @@
 
 const path = require('path');
 
+const bodyParser = require('body-parser');
 const express = require('express');
 const expressNunjucks = require('express-nunjucks');
+
+const middleware = require('./src/middleware');
+const setupRouter = require('./src/setup/router');
 
 const app = express();
 const port = 3000;
@@ -17,9 +21,15 @@ app.use('/static', express.static('static'));
 app.set('views', path.join(__dirname, '/templates'));
 expressNunjucks(app, { noCache: true });
 
+// Enable body parsing.
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(middleware.setupComplete);
+
 app.get('/', (req, res) => {
   res.render('public/homepage');
 });
+app.use('/setup', setupRouter);
 
 if (require.main === module) {
   app.listen(port, () => {

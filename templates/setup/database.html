@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Setup Database{% endblock %}
+
+{% block content %}
+
+  <div class="container-fluid">
+
+  <h1>Setup</h1>
+  <p>Please enter your database connection details below.</p>
+
+  <fieldset>
+    <form method="post" action="/setup">
+      <div class="mb-3">
+        <label class="form-label"
+               for="database-name">Database Name</label>
+        <input id="database-name"
+               class="form-control"
+               type="text"
+               name="databaseName" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label"
+               for="username">Username</label>
+        <input id="username"
+               class="form-control"
+               type="text"
+               name="username" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label"
+               for="password">Password</label>
+        <input id="password"
+               class="form-control"
+               type="password"
+               name="password" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label"
+               for="database-host">Database Host</label>
+        <input id="database-host"
+               class="form-control"
+               type="text"
+               name="databaseHost" />
+      </div>
+      {% if errMessage %}
+        <p class="text-danger">{{ errMessage }}</p>
+      {% endif %}
+      <div class="mb-3">
+        <input class="btn btn-primary"
+               type="submit"
+               name="submit"
+               value="Submit" />
+      </div>
+    </form>
+  </fieldset>
+
+  </div>
+
+{% endblock %}
