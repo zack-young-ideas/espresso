@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Setup Admin User{% endblock %}
+
+{% block content %}
+
+  <div class="container-fluid">
+
+  <h1>Setup</h1>
+  <p>Create login credentials for the administrative user.</p>
+
+  <fieldset>
+    <form method="post" action="/setup/user">
+      <div class="mb-3">
+        <label class="form-label"
+               for="admin-username">Admin Username</label>
+        <input id="admin-username"
+               class="form-control"
+               type="text"
+               name="username" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label"
+               for="password">Password</label>
+        <input id="password"
+               class="form-control"
+               type="password"
+               name="password" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label"
+               for="email">Email</label>
+        <input id="email"
+               class="form-control"
+               type="text"
+               name="email" />
+      </div>
+      <div class="mb-3">
+        <input class="btn btn-primary"
+               type="submit"
+               name="submit"
+               value="Submit" />
+      </div>
+    </form>
+  </fieldset>
+
+  </div>
+
+{% endblock %}
