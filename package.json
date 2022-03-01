@@ -10,5 +10,10 @@
     "blog"
   ],
   "author": "Zack Young",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.3",
+    "express-nunjucks": "^2.2.5",
+    "nunjucks": "^3.2.3"
+  }
 }
