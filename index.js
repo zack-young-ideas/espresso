@@ -68,13 +68,18 @@ app.get('/', (req, res) => {
 });
 app.use('/setup', setupRouter);
 app.use('/admin', adminRouter);
-app.get('/500', (req, res) => {
-  res.status(500).render('public/500');
+app.use((req, res) => {
+  res.status(404).render('public/404');
 });
 
 if (require.main === module) {
-  app.listen(port, () => {
-    console.log(`Listening on port ${port}...`); // eslint-disable-line
+  settings.initializeSettings(() => {
+    if (settings.databaseUri) {
+      database.connect(settings.databaseSettings);
+    }
+    app.listen(port, () => {
+      console.log(`Listening on port ${port}...`); // eslint-disable-line
+    });
   });
 } else {
   module.exports = app;
