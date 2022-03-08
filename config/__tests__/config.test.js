@@ -6,7 +6,7 @@ const utils = require('../../src/utils');
 jest.mock('fs');
 
 describe('settings object', () => {
-  describe('updateDatabase method', () => {
+  describe('updateDatabase() method', () => {
     beforeEach(() => {
       fs.writeFile.mockClear();
     });
@@ -28,7 +28,7 @@ describe('settings object', () => {
         Object.prototype.hasOwnProperty.call(settings, 'databaseUri'),
       ).toBe(false);
 
-      await settings.updateDatabase(testData);
+      settings.updateDatabase(testData);
 
       expect(settings.databaseUri).toBe(connectionString);
     });
@@ -45,11 +45,49 @@ describe('settings object', () => {
 
       expect(fs.writeFile).toHaveBeenCalledTimes(0);
 
-      await settings.updateDatabase(testData);
+      settings.updateDatabase(testData);
 
       expect(fs.writeFile).toHaveBeenCalledTimes(1);
       expect(fs.writeFile.mock.calls[0][0]).toBe(filename);
       expect(fs.writeFile.mock.calls[0][1]).toBe(JSON.stringify(testData));
+    });
+  });
+
+  describe('completeSetup() method', () => {
+    it('should write to database.json file', async () => {
+      const env = process.env.NODE_ENV;
+      fs.readFile = jest.fn((fileName, callback) => {
+        callback(null, '{}');
+      });
+      fs.writeFile = jest.fn((fileName, data, callback) => {
+        callback(null, '{}');
+      });
+
+      expect(fs.readFile).toHaveBeenCalledTimes(0);
+      expect(fs.writeFile).toHaveBeenCalledTimes(0);
+
+      settings.completeSetup();
+
+      expect(fs.readFile).toHaveBeenCalledTimes(1);
+      expect(fs.readFile.mock.calls[0][0])
+        .toBe(`./config/${env}.database.json`);
+      expect(fs.writeFile).toHaveBeenCalledTimes(1);
+      expect(fs.writeFile.mock.calls[0][0])
+        .toBe(`./config/${env}.database.json`);
+    });
+
+    it('should update setup property of settings object', async () => {
+      settings.setup = false;
+      fs.readFile = jest.fn((fileName, callback) => {
+        callback(null, '{}');
+      });
+      fs.writeFile = jest.fn((fileName, data, callback) => {
+        callback(null, '{}');
+      });
+
+      settings.completeSetup();
+
+      expect(settings.setup).toBe(true);
     });
   });
 });
