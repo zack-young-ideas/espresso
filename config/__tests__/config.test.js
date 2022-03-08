@@ -90,4 +90,43 @@ describe('settings object', () => {
       expect(settings.setup).toBe(true);
     });
   });
+
+  describe('initializeSettings() method', () => {
+    it('should read from database.json file', async () => {
+      const env = process.env.NODE_ENV;
+      fs.readFile = jest.fn((fileName, callback) => {
+        callback(null, '{}');
+      });
+
+      expect(fs.readFile).toHaveBeenCalledTimes(0);
+
+      settings.initializeSettings(jest.fn());
+
+      expect(fs.readFile).toHaveBeenCalledTimes(1);
+      expect(fs.readFile.mock.calls[0][0])
+        .toBe(`./config/${env}.database.json`);
+    });
+
+    it('should update properties of settings object', async () => {
+      settings.databaseUri = null;
+      settings.setup = false;
+      const dataObject = {
+        databaseName: 'test',
+        username: 'zack',
+        password: 'password',
+        databaseIp: '127.0.0.1',
+        databasePort: '27017',
+        setup: true,
+      };
+      fs.readFile = jest.fn((fileName, callback) => {
+        callback(null, JSON.stringify(dataObject));
+      });
+
+      settings.initializeSettings(jest.fn());
+
+      expect(settings.databaseUri)
+        .toBe(utils.getMongoConnectionUri(dataObject));
+      expect(settings.setup).toBe(true);
+    });
+  });
 });

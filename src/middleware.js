@@ -12,7 +12,7 @@ exports.setupComplete = (req, res, next) => {
     }
     return res.redirect(302, '/setup/user');
   } if (req.originalUrl.startsWith('/setup')) {
-    res.status(404).render('public/404');
+    return res.status(404).render('public/404');
   }
   return next();
 };
