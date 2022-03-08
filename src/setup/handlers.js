@@ -39,6 +39,27 @@ handlers.setupUser = {
     res.render('setup/user');
   },
 
+  post: async (req, res) => {
+    const form = new forms.UserForm(req.body);
+    if (form.isValid()) {
+      try {
+        const user = database.createAdminUser(form);
+        await settings.completeSetup();
+        req.login(user, (error) => {
+          if (error) {
+            res.status(500).render('public/500');
+          } else {
+            res.redirect(302, '/admin');
+          }
+        });
+      } catch (error) {
+        res.status(500).render('public/500');
+      }
+    } else {
+      res.render('setup/user', { errMessage: form.error });
+    }
+  },
+
 };
 
 module.exports = handlers;

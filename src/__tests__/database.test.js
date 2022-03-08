@@ -1,11 +1,23 @@
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
+const settings = require('../../config');
 const database = require('../database');
+const models = require('../models');
 const utils = require('../utils');
 
-jest.mock('mongoose');
+jest.mock('bcrypt');
+jest.mock('../models');
+jest.mock('mongoose', () => {
+  const originalModule = jest.requireActual('mongoose');
 
-describe('DatabaseDriver connect method', () => {
+  return {
+    ...originalModule,
+    connect: jest.fn(),
+  };
+});
+
+describe('DatabaseDriver connect() method', () => {
   it('should call mongoose.connect() method', async () => {
     const testData = {
       username: 'Steve',
@@ -25,5 +37,55 @@ describe('DatabaseDriver connect method', () => {
       connectionString,
       { serverSelectionTimeoutMS: 5000 },
     );
+  });
+});
+
+describe('DatabaseDriver createAdminUser() method', () => {
+  let testData;
+  let userObject;
+
+  beforeEach(() => {
+    testData = {
+      username: 'Steve',
+      password: 'Supersecret',
+      email: 'steve@example.com',
+    };
+    bcrypt.hashSync = jest.fn(() => 's0m3H4sh');
+    userObject = { save: jest.fn() };
+    models.User = jest.fn(() => userObject);
+  });
+
+  it('should call bcrypt.hash() method', async () => {
+    expect(bcrypt.hashSync).toHaveBeenCalledTimes(0);
+
+    await database.createAdminUser(testData);
+
+    expect(bcrypt.hashSync).toHaveBeenCalledTimes(1);
+    expect(bcrypt.hashSync).toHaveBeenCalledWith(
+      `Supersecret${settings.secretPepper}`,
+      10,
+    );
+  });
+
+  it('should create a new User object', async () => {
+    expect(models.User).toHaveBeenCalledTimes(0);
+
+    await database.createAdminUser(testData);
+
+    expect(models.User).toHaveBeenCalledTimes(1);
+    expect(userObject.save).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('DatabaseDriver getUserByUsername() method', () => {
+  it('should call models.User.findOne() method', async () => {
+    models.User.findOne = jest.fn();
+
+    expect(models.User.findOne).toHaveBeenCalledTimes(0);
+
+    await database.getUserByUsername('Steve', 'password', () => null);
+
+    expect(models.User.findOne).toHaveBeenCalledTimes(1);
+    expect(models.User.findOne.mock.calls[0][0].username).toBe('Steve');
   });
 });
