@@ -24,7 +24,7 @@ handlers.setupDatabase = {
             { errMessage: 'Invalid username or password' },
           );
         } else {
-          res.status(500).send('Internal server error');
+          res.status(500).render('public/500');
         }
       }
     } else {

@@ -1,27 +1,42 @@
+const portfinder = require('portfinder');
 const { Builder, By, until } = require('selenium-webdriver');
 
 const app = require('../index');
 const database = require('../src/database');
 const settings = require('../config');
 
+jest.mock('fs', () => {
+  const originalModule = jest.requireActual('fs');
+
+  return {
+    ...originalModule,
+    writeFile: jest.fn((filename, data, callback) => callback()),
+  };
+});
 jest.mock('../src/database');
 
-const url = 'http://localhost:3000';
 let browser;
+let port;
 let server;
-
-beforeEach(async () => {
-  server = await app.listen(3000);
-  browser = await new Builder().forBrowser('chrome').build();
-  settings.databaseUri = null;
-});
-
-afterEach(async () => {
-  await browser.quit();
-  await server.close();
-});
+let url;
 
 describe('Setup', () => {
+  beforeAll(async () => {
+    port = await portfinder.getPortPromise();
+    url = `http://localhost:${port}`;
+  });
+
+  beforeEach(async () => {
+    server = await app.listen(port);
+    browser = await new Builder().forBrowser('chrome').build();
+    settings.databaseUri = null;
+  });
+
+  afterEach(async () => {
+    await browser.quit();
+    await server.close();
+  });
+
   it('should prompt user for database info', async () => {
     // Requests made to any URL path redirect to /setup.
     await browser.get(`${url}/`);

@@ -28,6 +28,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
     "jest": "^27.5.1",
+    "portfinder": "^1.0.28",
     "sass": "^1.49.8",
     "selenium-webdriver": "^4.1.1"
   }

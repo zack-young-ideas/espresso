@@ -89,3 +89,24 @@ describe('DatabaseDriver getUserByUsername() method', () => {
     expect(models.User.findOne.mock.calls[0][0].username).toBe('Steve');
   });
 });
+
+describe('DatabaseDriver createBlogPost() method', () => {
+  it('should construct a new BlogPost object', async () => {
+    const blogPostObject = { save: jest.fn() };
+    models.BlogPost = jest.fn(() => blogPostObject);
+    const blogPostData = {
+      title: 'Test Post',
+      slug: 'test-post',
+      body: 'Lorem ipsum...',
+      tags: ['test'],
+      action: 'Publish',
+    };
+
+    expect(models.BlogPost).toHaveBeenCalledTimes(0);
+
+    await database.createBlogPost(blogPostData);
+
+    expect(models.BlogPost).toHaveBeenCalledTimes(1);
+    expect(blogPostObject.save).toHaveBeenCalledTimes(1);
+  });
+});

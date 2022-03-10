@@ -1,9 +1,43 @@
+const database = require('../database');
+const forms = require('./forms');
+
 const handlers = {};
 
 handlers.homepage = {
 
+  get: async (req, res) => {
+    const context = { posts: await database.getBlogPosts() };
+    res.render('admin/homepage', context);
+  },
+
+};
+
+handlers.login = {
+
   get: (req, res) => {
-    res.render('admin/homepage');
+    res.render('admin/login');
+  },
+
+};
+
+handlers.createBlogPost = {
+
+  get: (req, res) => {
+    res.render('admin/blogPost');
+  },
+
+  post: (req, res) => {
+    const form = new forms.BlogPostForm(req.body);
+    if (form.isValid()) {
+      try {
+        database.createBlogPost(form);
+        res.redirect(303, '/admin');
+      } catch (error) {
+        res.status(500).render('public/500');
+      }
+    } else {
+      res.render('admin/blogPost', { errMessage: form.error });
+    }
   },
 
 };
