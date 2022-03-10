@@ -55,3 +55,32 @@ describe('Setup middleware', () => {
     expect(returnObject.render).toHaveBeenCalledWith('public/404');
   });
 });
+
+describe('Admin middleware', () => {
+  it('should redirect to login page if admin user is not logged in', () => {
+    const req = { path: '/admin/secret' };
+    const res = { redirect: jest.fn() };
+    const next = jest.fn();
+
+    expect(res.redirect).toHaveBeenCalledTimes(0);
+
+    middleware.adminRedirect(req, res, next);
+
+    expect(res.redirect).toHaveBeenCalledTimes(1);
+    expect(res.redirect).toHaveBeenCalledWith(302, '/admin/login');
+  });
+
+  it('should call next() if admin user is logged in', () => {
+    const req = {
+      path: '/admin/secret',
+      user: { admin: true },
+    };
+    const res = { redirect: jest.fn() };
+    const next = jest.fn();
+
+    middleware.adminRedirect(req, res, next);
+
+    expect(res.redirect).toHaveBeenCalledTimes(0);
+    expect(next).toHaveBeenCalledTimes(1);
+  });
+});

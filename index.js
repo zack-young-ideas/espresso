@@ -62,9 +62,11 @@ expressNunjucks(app, { noCache: true });
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(middleware.setupComplete);
+app.use(middleware.adminRedirect);
 
-app.get('/', (req, res) => {
-  res.render('public/homepage');
+app.get('/', async (req, res) => {
+  const context = { posts: await database.getBlogPosts() };
+  res.render('public/homepage', context);
 });
 app.use('/setup', setupRouter);
 app.use('/admin', adminRouter);

@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 
 const settings = require('../config');
 
+const { ObjectId } = mongoose.Schema.Types;
+
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
@@ -18,3 +20,23 @@ userSchema.methods.validatePassword = function (password, callback) {
 };
 
 exports.User = mongoose.model('User', userSchema);
+
+const date = (dateObject) => dateObject.toLocaleDateString(
+  'en-US',
+  { year: 'numeric', month: 'long', day: 'numeric' },
+);
+
+const blogPostSchema = new mongoose.Schema({
+  title: String,
+  slug: { type: String, index: true },
+  author: String,
+  created: { type: Date, get: date },
+  modified: { type: Date, get: date },
+  image: String,
+  body: String,
+  published: Boolean,
+  tags: [String],
+  views: Number,
+  comments: [ObjectId],
+});
+exports.BlogPost = mongoose.model('BlogPost', blogPostSchema);

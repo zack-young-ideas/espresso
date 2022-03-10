@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <header>
+    <div class="navbar navbar-dark bg-dark box-shadow">
+      <div class="container-fluid d-flex justify-content-between">
+        <a href="/" class="navbar-brand d-flex align-items-center">
+          <strong>Blog</strong>
+        </a>
+
+        <ul class="nav">
+          <li class="nav-item">
+            <a href="/" class="nav-link text-white">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="/" class="nav-link text-white">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="/" class="nav-link text-white">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main role="main">
+    {% block main %}{% endblock %}
+  </main>
+
+  <footer class="footer bg-dark">
+    <div class="container-fluid text-center">
+      <div class="mb-4">
+        <p class="text-white">Written by Zack Young.</p>
+      </div>
+      <p>
+        <a class="text-white" href="#">Back to top</a>
+      </p>
+    </div>
+  </footer>
+{% endblock %}

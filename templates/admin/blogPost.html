@@ -1,0 +1,60 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Create Blog Post | Admin{% endblock %}
+
+{% block main %}
+  <div class="container-fluid">
+    <div class="row">
+      <h2>Create New Post</h2>
+      <fieldset>
+        <form action="/admin/blog/post/add" method="post">
+          <div class="mb-3">
+            <label for="post-title">Title</label>
+            <input class="form-control"
+                   id="post-title"
+                   type="text"
+                   placeholder="Enter title here"
+                   name="title" />
+          </div>
+          <div class="mb-3">
+            <label for="post-slug">Slug</label>
+            <input class="form-control"
+                   id="post-slug"
+                   type="text"
+                   placeholder="Slug"
+                   name="slug" />
+          </div>
+          <div class="mb-3">
+            <label for="tags">Tags</label>
+            <input class="form-control"
+                   id="tags"
+                   type="text"
+                   placeholder="Tags"
+                   name="tags" />
+          </div>
+          <div class="mb-3">
+            <label for="post-content">Post Content</label>
+            <textarea class="form-control"
+                      id="post-content"
+                      name="content"
+                      placeholder="Text goes here"></textarea>
+          </div>
+          {% if errMessage %}
+            <p class="text-danger">{{ errMessage }}</p>
+          {% endif %}
+          <div class="mb-3">
+            <input class="btn btn-secondary"
+                   id="publish-button"
+                   name="action"
+                   type="submit"
+                   value="Publish" />
+          </div>
+        </form>
+      </fieldset>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/static/js/slugAutoFill.js"></script>
+{% endblock %}

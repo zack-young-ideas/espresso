@@ -56,4 +56,26 @@ const getUserByUsername = (username, password, callback) => {
   });
 };
 
-module.exports = { connect, createAdminUser, getUserByUsername };
+const createBlogPost = (data) => {
+  const publishStatus = (data.action === 'Publish');
+  const newPost = new models.BlogPost({
+    title: data.title,
+    slug: data.slug,
+    author: 'Admin',
+    created: new Date(),
+    modified: new Date(),
+    image: '',
+    body: data.body,
+    published: publishStatus,
+    tags: data.tags,
+    views: 0,
+    comments: [],
+  });
+  newPost.save();
+};
+
+const getBlogPosts = async () => models.BlogPost.find({});
+
+module.exports = {
+  connect, createAdminUser, getUserByUsername, createBlogPost, getBlogPosts,
+};
