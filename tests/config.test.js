@@ -41,14 +41,15 @@ describe('settings object', () => {
         databasePort: '3000',
         databaseName: 'test',
       };
-      const filename = './config/development.database.json';
+      const filename = 'development.database.json';
 
       expect(fs.writeFile).toHaveBeenCalledTimes(0);
 
       settings.updateDatabase(testData);
 
       expect(fs.writeFile).toHaveBeenCalledTimes(1);
-      expect(fs.writeFile.mock.calls[0][0]).toBe(filename);
+      const firstArg = fs.writeFile.mock.calls[0][0].split('/');
+      expect(firstArg[firstArg.length - 1]).toBe(filename);
       expect(fs.writeFile.mock.calls[0][1]).toBe(JSON.stringify(testData));
     });
   });
@@ -56,6 +57,7 @@ describe('settings object', () => {
   describe('completeSetup() method', () => {
     it('should write to database.json file', async () => {
       const env = process.env.NODE_ENV;
+      const filename = 'development.database.json';
       fs.readFile = jest.fn((fileName, callback) => {
         callback(null, '{}');
       });
@@ -69,11 +71,11 @@ describe('settings object', () => {
       settings.completeSetup();
 
       expect(fs.readFile).toHaveBeenCalledTimes(1);
-      expect(fs.readFile.mock.calls[0][0])
-        .toBe(`./config/${env}.database.json`);
+      let firstArg = fs.readFile.mock.calls[0][0].split('/');
+      expect(firstArg[firstArg.length - 1]).toBe(filename);
       expect(fs.writeFile).toHaveBeenCalledTimes(1);
-      expect(fs.writeFile.mock.calls[0][0])
-        .toBe(`./config/${env}.database.json`);
+      firstArg = fs.writeFile.mock.calls[0][0].split('/');
+      expect(firstArg[firstArg.length - 1]).toBe(filename);
     });
 
     it('should update setup property of settings object', async () => {
@@ -94,6 +96,7 @@ describe('settings object', () => {
   describe('initializeSettings() method', () => {
     it('should read from database.json file', async () => {
       const env = process.env.NODE_ENV;
+      const filename = 'development.database.json';
       fs.readFile = jest.fn((fileName, callback) => {
         callback(null, '{}');
       });
@@ -103,8 +106,8 @@ describe('settings object', () => {
       settings.initializeSettings(jest.fn());
 
       expect(fs.readFile).toHaveBeenCalledTimes(1);
-      expect(fs.readFile.mock.calls[0][0])
-        .toBe(`../config/${env}.database.json`);
+      const firstArg = fs.readFile.mock.calls[0][0].split('/');
+      expect(firstArg[firstArg.length - 1]).toBe(filename);
     });
 
     it('should update properties of settings object', async () => {

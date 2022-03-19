@@ -94,8 +94,8 @@ describe('Admin site', () => {
     expect(currentUrl).toEqual(`${url}/admin`);
 
     // They click the button to create a new blog post.
-    const createButton = await browser.findElement(By.linkText('Add Post'));
-    await createButton.click();
+    const addPostButton = await browser.findElement(By.id('add-post'));
+    await addPostButton.click();
     await browser.wait(until.titleIs('Create Blog Post | Admin'), 3000);
     currentUrl = await browser.getCurrentUrl();
     expect(currentUrl).toEqual(`${url}/admin/blog/post/add`);

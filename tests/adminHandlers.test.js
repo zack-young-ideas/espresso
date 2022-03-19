@@ -7,15 +7,27 @@ jest.mock('../lib/admin/forms');
 
 describe('homepage handler', () => {
   describe('GET requests', () => {
-    it('should render homepage.html template', async () => {
+    it('should render homepage.html template', () => {
+      const res = { render: jest.fn() };
+
+      handlers.homepage.get({}, res);
+
+      expect(res.render).toHaveBeenCalledWith('admin/homepage');
+    });
+  });
+});
+
+describe('blog overview page handler', () => {
+  describe('GET requests', () => {
+    it('should render blogOverview.html template', async () => {
       const res = { render: jest.fn() };
       const blogPosts = [];
       database.getBlogPosts = jest.fn(() => blogPosts);
 
-      await handlers.homepage.get({}, res);
+      await handlers.blogOverview.get({}, res);
 
       expect(res.render)
-        .toHaveBeenCalledWith('admin/homepage', { posts: blogPosts });
+        .toHaveBeenCalledWith('admin/blogOverview', { posts: blogPosts });
     });
   });
 });
