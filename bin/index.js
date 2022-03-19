@@ -7,6 +7,7 @@
  */
 
 const fs = require('fs');
+const path = require('path');
 
 const utils = require('../lib/utils');
 
@@ -20,11 +21,13 @@ const configFileData = `module.exports = {
   secretKey: '${utils.createRandomSecret()}',
   secretPepper: '${utils.createRandomSecret()}',
 };`;
+const filename = path.join(__dirname, '..', 'config', 'development.js');
 const port = 3000;
 
-switch (process.argv[2]) {
+const command = process.argv[2];
+switch (command) {
   case 'init':
-    fs.writeFileSync('../config/development.js', configFileData);
+    fs.writeFileSync(filename, configFileData);
     break;
   case 'run':
     app = require('../app');
@@ -41,6 +44,6 @@ switch (process.argv[2]) {
     });
     break;
   default:
-    console.error('Unrecognized command');
+    console.error(`InvalidCommandError: Unrecognized command '${command}'`);
     break;
 }
