@@ -46,7 +46,7 @@ describe('Setup middleware', () => {
     settings.databaseUri = 'connection';
 
     expect(res.status).toHaveBeenCalledTimes(0);
-   
+
     middleware.setupComplete(req, res, next);
 
     expect(res.status).toHaveBeenCalledTimes(1);

@@ -23,7 +23,7 @@
           <div class="blogpost card mb-4">
             <div class="card-body">
               <h3 class="mb-0">
-                <a class="text-dark" href="">
+                <a class="text-dark" href="/blog/post/{{ post.slug }}">
                   {{ post.title }}
                 </a>
               </h3>
@@ -31,7 +31,7 @@
               <p class="card-text">{{ post.body | safe | truncate }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <a href="">Continue reading</a>
+                  <a href="/blog/post/{{ post.slug }}">Continue reading</a>
                 </div>
                 <small class="text-muted">{{ post.views }} views</small>
               </div>

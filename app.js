@@ -68,6 +68,14 @@ app.get('/', async (req, res) => {
   const context = { posts: await database.getBlogPosts() };
   res.render('public/homepage', context);
 });
+app.get('/blog/post/:slug', async (req, res) => {
+  try {
+    const blogPost = await database.getBlogPostBySlug(req.params.slug);
+    res.render('public/blogPost', { post: blogPost });
+  } catch (error) {
+    res.status(404).render('public/404');
+  }
+});
 app.use('/setup', setupRouter);
 app.use('/admin', adminRouter);
 app.use((req, res) => {
