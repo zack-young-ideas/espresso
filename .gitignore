@@ -137,3 +137,5 @@ dist
 
 # Ignore files containing database credentials
 config/*.database.json
+# Ignore the default configuration file
+config/development.js
