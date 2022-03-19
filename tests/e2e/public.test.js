@@ -76,6 +76,16 @@ describe('Public pages', () => {
   });
 
   it('should display blog post content', async () => {
+    // Stub the getBlogPostBySlug() method of the database object.
+    database.getBlogPostBySlug = () => ({
+      title: 'First Post',
+      author: 'Edgar Winter',
+      created: new Date(),
+      body: 'This is the first post',
+      slug: 'first-post',
+      views: 0,
+    });
+
     // On the homepage, if a user clicks on one of the blog posts,
     // they are sent to the page for that blog post.
     await browser.get(`${url}/`);
@@ -88,10 +98,10 @@ describe('Public pages', () => {
     await browser.wait(until.titleIs('First Post'), 3000);
     const currentUrl = await browser.getCurrentUrl();
     expect(currentUrl).toEqual(`${url}/blog/post/first-post`);
-    const postTitle = await browser.findElement(By.tag('h2')).getText();
+    const postTitle = await browser.findElement(By.tagName('h2')).getText();
     expect(postTitle).toBe('First Post');
     const postAuthor = await browser
-      .findElement(By.id('post-author')).getText();
+      .findElement(By.className('post-author')).getText();
     expect(postAuthor).toBe('Edgar Winter');
     const postContent = await browser
       .findElement(By.className('main-content')).getText();
