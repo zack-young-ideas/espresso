@@ -104,7 +104,7 @@ describe('settings object', () => {
 
       expect(fs.readFile).toHaveBeenCalledTimes(1);
       expect(fs.readFile.mock.calls[0][0])
-        .toBe(`./config/${env}.database.json`);
+        .toBe(`../config/${env}.database.json`);
     });
 
     it('should update properties of settings object', async () => {

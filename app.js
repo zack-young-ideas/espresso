@@ -18,7 +18,6 @@ const settings = require('./config');
 const setupRouter = require('./lib/setup/router');
 
 const app = express();
-const port = 3000;
 
 // Enable cookies-based sessions.
 app.use(session({
@@ -52,7 +51,7 @@ passport.deserializeUser((user, callback) => {
 });
 
 // Serve static files.
-app.use('/static', express.static('public'));
+app.use('/static', express.static(path.join(__dirname, '/public')));
 
 // Configure the Nunjucks template engine.
 app.set('views', path.join(__dirname, '/views'));
@@ -82,15 +81,4 @@ app.use((req, res) => {
   res.status(404).render('public/404');
 });
 
-if (require.main === module) {
-  settings.initializeSettings(() => {
-    if (settings.databaseUri) {
-      database.connect(settings.databaseSettings);
-    }
-    app.listen(port, () => {
-      console.log(`Listening on port ${port}...`); // eslint-disable-line
-    });
-  });
-} else {
-  module.exports = app;
-}
+module.exports = app;

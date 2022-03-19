@@ -52,7 +52,7 @@ settings.initializeSettings = (callback) => {
   If a database.json file exists, initialize the settings object with
   the database credentials from that file.
   */
-  fs.readFile(`./config/${env}.database.json`, (error, data) => {
+  fs.readFile(`../config/${env}.database.json`, (error, data) => {
     if (!error) {
       const databaseInfo = JSON.parse(data);
       settings.databaseSettings = databaseInfo;
