@@ -11,11 +11,11 @@ const LocalStrategy = require('passport-local');
 const passport = require('passport');
 const session = require('express-session');
 
-const adminRouter = require('./src/admin/router');
-const database = require('./src/database');
-const middleware = require('./src/middleware');
+const adminRouter = require('./lib/admin/router');
+const database = require('./lib/database');
+const middleware = require('./lib/middleware');
 const settings = require('./config');
-const setupRouter = require('./src/setup/router');
+const setupRouter = require('./lib/setup/router');
 
 const app = express();
 const port = 3000;
@@ -52,10 +52,10 @@ passport.deserializeUser((user, callback) => {
 });
 
 // Serve static files.
-app.use('/static', express.static('static'));
+app.use('/static', express.static('public'));
 
 // Configure the Nunjucks template engine.
-app.set('views', path.join(__dirname, '/templates'));
+app.set('views', path.join(__dirname, '/views'));
 expressNunjucks(app, { noCache: true });
 
 // Enable body parsing.

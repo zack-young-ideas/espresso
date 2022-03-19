@@ -3,11 +3,11 @@ const passport = require('passport');
 const portfinder = require('portfinder');
 const { Builder, By, until } = require('selenium-webdriver');
 
-const app = require('../index');
-const database = require('../src/database');
-const settings = require('../config');
+const app = require('../../app');
+const database = require('../../lib/database');
+const settings = require('../../config');
 
-jest.mock('../src/database');
+jest.mock('../../lib/database');
 
 let browser;
 let port;
@@ -93,15 +93,16 @@ describe('Admin site', () => {
     expect(slugValue).toBe('new-post');
     const tagsField = await browser.findElement(By.name('tags'));
     await tagsField.sendKeys('example,test');
-    const contentField = await browser.findElement(By.name('content'));
-    await contentField.sendKeys(
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-      'Phasellus sapien sapien, vulputate sed massa dictum, sodales ',
-      'maximus neque. Morbi eu velit quis tortor commodo facilisis vel ',
-      'ac magna. Maecenas posuere fermentum nisl quis gravida.',
-    );
+    const text = ([
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'Phasellus sapien sapien, vulputate sed massa dictum,',
+      'sodales maximus neque. Morbi eu velit quis tortor commodo',
+      'facilisis vel ac magna. Maecenas posuere fermentum nisl',
+      'quis gravida.',
+    ]).join(' ');
+    await browser.executeScript(`tinyMCE.activeEditor.setContent("${text}")`);
     const publishButton = await browser.findElement(By.id('publish-button'));
-    await publishButton.click();
+    await browser.executeScript('arguments[0].click()', publishButton);
 
     // The user is redirected to the admin dashboard.
     await browser.wait(until.titleIs('Admin'), 3000);

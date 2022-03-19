@@ -2,7 +2,7 @@
   "name": "basic-blog",
   "version": "1.0.0",
   "description": "Basic blogging website powered by Express",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "jest"
   },
@@ -21,14 +21,19 @@
     "nunjucks": "^3.2.3",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
+    "tinymce": "^5.10.3",
     "validator": "^13.7.0"
   },
   "devDependencies": {
+    "brfs": "^2.0.2",
+    "browserify": "^17.0.0",
+    "browserify-css": "^0.15.0",
     "eslint": "^8.10.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
     "jest": "^27.5.1",
     "portfinder": "^1.0.28",
+    "promise-polyfill": "^8.2.3",
     "sass": "^1.49.8",
     "selenium-webdriver": "^4.1.1"
   }

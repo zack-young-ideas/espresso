@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const utils = require('../src/utils');
+const utils = require('../lib/utils');
 
 const env = process.env.NODE_ENV || 'development';
 

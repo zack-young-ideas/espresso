@@ -1,7 +1,7 @@
-const middleware = require('../middleware');
-const settings = require('../../config');
+const middleware = require('../lib/middleware');
+const settings = require('../config');
 
-jest.mock('../../config');
+jest.mock('../config');
 
 describe('Setup middleware', () => {
   it('should redirect requests if database is not initialized', () => {
