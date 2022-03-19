@@ -51,10 +51,10 @@ passport.deserializeUser((user, callback) => {
 });
 
 // Serve static files.
-app.use('/static', express.static(path.join(__dirname, '/public')));
+app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // Configure the Nunjucks template engine.
-app.set('views', path.join(__dirname, '/views'));
+app.set('views', path.join(__dirname, 'views'));
 expressNunjucks(app, { noCache: true });
 
 // Enable body parsing.

@@ -1,8 +1,10 @@
 const fs = require('fs');
+const path = require('path');
 
 const utils = require('../lib/utils');
 
 const env = process.env.NODE_ENV || 'development';
+const databaseSettingsFile = path.join(__dirname, `${env}.database.json`);
 
 const settings = require(`./${env}.js`); // eslint-disable-line
 settings.setup = false;
@@ -13,7 +15,7 @@ settings.updateDatabase = (connectionParams) => {
   local file for future use.
   */
   const data = JSON.stringify(connectionParams);
-  fs.writeFile(`./config/${env}.database.json`, data, (error) => {
+  fs.writeFile(databaseSettingsFile, data, (error) => {
     if (!error) {
       if (settings.databaseDriver === 'mongo') {
         settings.databaseUri = utils.getMongoConnectionUri(connectionParams);
@@ -29,7 +31,7 @@ settings.completeSetup = () => {
   all future requests to the setup URLs result in a 404 response.
   */
   let currentSettings;
-  fs.readFile(`./config/${env}.database.json`, (error, data) => {
+  fs.readFile(databaseSettingsFile, (error, data) => {
     if (!error) {
       currentSettings = JSON.parse(data);
       currentSettings.setup = true;
@@ -52,7 +54,7 @@ settings.initializeSettings = (callback) => {
   If a database.json file exists, initialize the settings object with
   the database credentials from that file.
   */
-  fs.readFile(`../config/${env}.database.json`, (error, data) => {
+  fs.readFile(databaseSettingsFile, (error, data) => {
     if (!error) {
       const databaseInfo = JSON.parse(data);
       settings.databaseSettings = databaseInfo;
