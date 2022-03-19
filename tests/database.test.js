@@ -1,13 +1,13 @@
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
-const settings = require('../../config');
-const database = require('../database');
-const models = require('../models');
-const utils = require('../utils');
+const settings = require('../config');
+const database = require('../lib/database');
+const models = require('../lib/models');
+const utils = require('../lib/utils');
 
 jest.mock('bcrypt');
-jest.mock('../models');
+jest.mock('../lib/models');
 jest.mock('mongoose', () => {
   const originalModule = jest.requireActual('mongoose');
 

@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-const settings = require('../index');
-const utils = require('../../src/utils');
+const settings = require('../config/index');
+const utils = require('../lib/utils');
 
 jest.mock('fs');
 

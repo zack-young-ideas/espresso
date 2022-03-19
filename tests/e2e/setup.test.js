@@ -1,9 +1,9 @@
 const portfinder = require('portfinder');
 const { Builder, By, until } = require('selenium-webdriver');
 
-const app = require('../index');
-const database = require('../src/database');
-const settings = require('../config');
+const app = require('../../app');
+const database = require('../../lib/database');
+const settings = require('../../config');
 
 jest.mock('fs', () => {
   const originalModule = jest.requireActual('fs');
@@ -13,7 +13,7 @@ jest.mock('fs', () => {
     writeFile: jest.fn((filename, data, callback) => callback()),
   };
 });
-jest.mock('../src/database');
+jest.mock('../../lib/database');
 
 let browser;
 let port;

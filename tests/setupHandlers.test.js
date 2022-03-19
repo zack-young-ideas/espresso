@@ -1,11 +1,11 @@
-const database = require('../../database');
-const forms = require('../forms');
-const handlers = require('../handlers');
-const settings = require('../../../config');
+const database = require('../lib/database');
+const forms = require('../lib/setup/forms');
+const handlers = require('../lib/setup/handlers');
+const settings = require('../config');
 
-jest.mock('../../../config');
-jest.mock('../../database');
-jest.mock('../forms');
+jest.mock('../config');
+jest.mock('../lib/database');
+jest.mock('../lib/setup/forms');
 
 describe('setupDatabase handler', () => {
   describe('GET requests', () => {

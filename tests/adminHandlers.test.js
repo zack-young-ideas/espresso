@@ -1,9 +1,9 @@
-const database = require('../../database');
-const forms = require('../forms');
-const handlers = require('../handlers');
+const database = require('../lib/database');
+const forms = require('../lib/admin/forms');
+const handlers = require('../lib/admin/handlers');
 
-jest.mock('../../database');
-jest.mock('../forms');
+jest.mock('../lib/database');
+jest.mock('../lib/admin/forms');
 
 describe('homepage handler', () => {
   describe('GET requests', () => {

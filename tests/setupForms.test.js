@@ -1,4 +1,4 @@
-const forms = require('../forms');
+const forms = require('../lib/setup/forms');
 
 describe('DatabaseForm class', () => {
   it('contains error message if no database name is given', () => {
