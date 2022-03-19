@@ -78,19 +78,17 @@ describe('Setup', () => {
   };
 
   it('should prompt user to create admin login credentials', async () => {
-    database.createAdminUser = jest.fn(() => {
-      const user = {
-        _id: '1234',
-        username: 'admin',
-        firstName: 'Zack',
-        lastName: 'Young',
-        admin: true,
-      };
-      return user;
+    // * Stub the createAdminUser() method of the database object.
+    database.createAdminUser = () => ({
+      _id: '1234',
+      username: 'admin',
+      firstName: 'Zack',
+      lastName: 'Young',
+      admin: true,
     });
+
     // After the user enters the database login info...
     await intializeDatabaseInfo('blog', 'admin', 'password', 'localhost');
-
     // they are redirected to a page prompting them to create a
     // username and password for the admin user.
     await browser.wait(until.titleIs('Setup Admin User'), 3000);

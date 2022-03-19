@@ -76,7 +76,7 @@ describe('Public pages', () => {
   });
 
   it('should display blog post content', async () => {
-    // Stub the getBlogPostBySlug() method of the database object.
+    // * Stub the getBlogPostBySlug() method of the database object.
     database.getBlogPostBySlug = () => ({
       title: 'First Post',
       author: 'Edgar Winter',
