@@ -31,6 +31,31 @@ describe('login page handler', () => {
   });
 });
 
+describe('log out handler', () => {
+  describe('GET requests', () => {
+    it('should call logout() method of the request object', () => {
+      const req = { logout: jest.fn() };
+      const res = { redirect: jest.fn() };
+
+      expect(req.logout).toHaveBeenCalledTimes(0);
+
+      handlers.logout.get(req, res);
+
+      expect(req.logout).toHaveBeenCalledTimes(1);
+      expect(req.logout).toHaveBeenCalledWith();
+    });
+
+    it('should redirect to login page', () => {
+      const req = { logout: jest.fn() };
+      const res = { redirect: jest.fn() };
+
+      handlers.logout.get(req, res);
+
+      expect(res.redirect).toHaveBeenCalledWith(303, '/admin/login');
+    });
+  });
+});
+
 describe('blog overview page handler', () => {
   describe('GET requests', () => {
     it('should render blogOverview.html template', async () => {
