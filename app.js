@@ -68,7 +68,7 @@ app.use(middleware.setupComplete);
 app.use(middleware.adminRedirect);
 
 app.get('/', async (req, res) => {
-  const context = { posts: await database.getBlogPosts() };
+  const context = { posts: await database.getPublishedBlogPosts() };
   res.render('public/homepage', context);
 });
 app.get('/blog/post/:slug', async (req, res) => {

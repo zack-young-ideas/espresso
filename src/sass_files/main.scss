@@ -1,8 +1,4 @@
 @import 'bootstrap/functions';
-
-// Override default primary colour.
-$primary: #ff5757;
-
 @import 'bootstrap/variables';
 @import 'bootstrap/mixins';
 @import 'bootstrap/root';
@@ -44,6 +40,12 @@ $primary: #ff5757;
   color: $white;
 }
 .btn-primary:hover {
+  color: $white;
+}
+.btn-success {
+  color: $white;
+}
+.btn-success:hover {
   color: $white;
 }
 
