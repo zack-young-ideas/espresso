@@ -7,6 +7,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const express = require('express');
 const expressNunjucks = require('express-nunjucks');
+const helmet = require('helmet');
 const LocalStrategy = require('passport-local');
 const passport = require('passport');
 const session = require('express-session');
@@ -19,9 +20,12 @@ const setupRouter = require('./lib/setup/router');
 
 const app = express();
 
+app.use(helmet());
+
 // Enable cookies-based sessions.
 app.use(session({
   secret: settings.secretKey,
+  name: 'sessionId',
   resave: false,
   saveUninitialized: false,
 }));
