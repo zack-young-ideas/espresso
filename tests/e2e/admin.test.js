@@ -28,7 +28,7 @@ describe('Admin site', () => {
         username: 'admin',
         firstName: 'Zack',
         lastName: 'Young',
-        admin: true,
+        role: 'admin',
       };
       return callback(null, user);
     };
@@ -156,15 +156,14 @@ describe('Admin site', () => {
     const confirmPasswordField = await browser
       .findElement(By.name('confirmPassword'));
     await confirmPasswordField.sendKeys('S%4eCr35tP45ssw0rDD');
-    const roleField = await browser
-      .findElement(By.css('option[value="admin"])'));
-    await roleField.click();
+    const roleField = await browser.findElement(By.id('user-role'));
+    await browser.executeScript('arguments[0].value="admin"', roleField);
     const createButton = await browser.findElement(By.name('create'));
-    await createButton.click();
+    await browser.executeScript('arguments[0].click()', createButton);
 
     // After creating the new user, they are redirected to the page
     // that lists all users.
-    await browser.wait(until.titleIs('Users | Admin'), 3000);
+    await browser.wait(until.titleIs('Auth Overview | Admin'), 3000);
     currentUrl = await browser.getCurrentUrl();
     expect(currentUrl).toEqual(`${url}/admin/auth/user`);
   });

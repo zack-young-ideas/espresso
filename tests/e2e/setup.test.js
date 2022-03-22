@@ -78,13 +78,13 @@ describe('Setup', () => {
   };
 
   it('should prompt user to create admin login credentials', async () => {
-    // * Stub the createAdminUser() method of the database object.
-    database.createAdminUser = () => ({
+    // * Stub the createUser() method of the database object.
+    database.createUser = () => ({
       _id: '1234',
       username: 'admin',
       firstName: 'Zack',
       lastName: 'Young',
-      admin: true,
+      role: 'admin',
     });
 
     // After the user enters the database login info...

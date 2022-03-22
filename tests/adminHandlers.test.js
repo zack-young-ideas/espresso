@@ -1,9 +1,11 @@
 const database = require('../lib/database');
 const forms = require('../lib/admin/forms');
 const handlers = require('../lib/admin/handlers');
+const userForms = require('../lib/setup/forms');
 
 jest.mock('../lib/database');
 jest.mock('../lib/admin/forms');
+jest.mock('../lib/setup/forms');
 
 describe('homepage handler', () => {
   describe('GET requests', () => {
@@ -13,6 +15,18 @@ describe('homepage handler', () => {
       handlers.homepage.get({}, res);
 
       expect(res.render).toHaveBeenCalledWith('admin/homepage');
+    });
+  });
+});
+
+describe('login page handler', () => {
+  describe('GET requests', () => {
+    it('should render login.html template', () => {
+      const res = { render: jest.fn() };
+
+      handlers.login.get({}, res);
+
+      expect(res.render).toHaveBeenCalledWith('admin/login');
     });
   });
 });
@@ -28,18 +42,6 @@ describe('blog overview page handler', () => {
 
       expect(res.render)
         .toHaveBeenCalledWith('admin/blogOverview', { posts: blogPosts });
-    });
-  });
-});
-
-describe('login page handler', () => {
-  describe('GET requests', () => {
-    it('should render login.html template', () => {
-      const res = { render: jest.fn() };
-
-      handlers.login.get({}, res);
-
-      expect(res.render).toHaveBeenCalledWith('admin/login');
     });
   });
 });
@@ -82,7 +84,7 @@ describe('create blog post page handler', () => {
       );
     });
 
-    it('should call create new blog post given valid data', async () => {
+    it('should create new blog post given valid data', async () => {
       const req = {};
       const res = { redirect: jest.fn() };
       const formObject = { isValid: () => true };
@@ -94,6 +96,76 @@ describe('create blog post page handler', () => {
 
       expect(database.createBlogPost).toHaveBeenCalledTimes(1);
       expect(database.createBlogPost).toHaveBeenCalledWith(formObject);
+    });
+  });
+});
+
+describe('user overview page handler', () => {
+  describe('GET requests', () => {
+    it('should render userOverview.html template', async () => {
+      const res = { render: jest.fn() };
+      const users = [];
+      database.getUsers = jest.fn(() => users);
+
+      await handlers.userOverview.get({}, res);
+
+      expect(res.render)
+        .toHaveBeenCalledWith('admin/userOverview', { users: users });
+    });
+  });
+});
+
+describe('create user page handler', () => {
+  describe('GET requests', () => {
+    it('should render user.html template', () => {
+      const res = { render: jest.fn() };
+
+      handlers.createUser.get({}, res);
+
+      expect(res.render).toHaveBeenCalledWith('admin/user');
+    });
+  });
+
+  describe('POST requests', () => {
+    it('should construct a new UserForm object', async () => {
+      const req = {};
+      const res = { render: jest.fn() };
+
+      await handlers.createUser.post(req, res);
+
+      expect(userForms.UserForm).toHaveBeenCalledTimes(1);
+      expect(userForms.UserForm).toHaveBeenCalledWith(req.body);
+    });
+
+    it('should display error message given invalid data', async () => {
+      const req = {};
+      const res = { render: jest.fn() };
+      formObject = {
+        isValid: () => false,
+        error: 'Invalid form data',
+      };
+      userForms.UserForm = jest.fn(() => formObject);
+
+      await handlers.createUser.post(req, res);
+
+      expect(res.render).toHaveBeenCalledWith(
+        'admin/user',
+        { errMessage: 'Invalid form data' },
+      );
+    });
+
+    it('should create new user given valid data', async () => {
+      const req = {};
+      const res = { redirect: jest.fn() };
+      const formObject = { isValid: () => true };
+      userForms.UserForm = jest.fn(() => formObject);
+
+      expect(database.createUser).toHaveBeenCalledTimes(0);
+
+      await handlers.createUser.post(req, res);
+
+      expect(database.createUser).toHaveBeenCalledTimes(1);
+      expect(database.createUser).toHaveBeenCalledWith(formObject);
     });
   });
 });

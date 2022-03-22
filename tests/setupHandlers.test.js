@@ -19,7 +19,7 @@ describe('setupDatabase handler', () => {
   });
 
   describe('POST requests', () => {
-    it('should create a new Form object', async () => {
+    it('should create a new form object', async () => {
       const req = { body: {} };
       const res = { render: jest.fn() };
 
@@ -102,14 +102,18 @@ describe('setupUser handler', () => {
   });
 
   describe('POST requests', () => {
-    it('should create a new Form object', async () => {
+    it('should create a new form object', async () => {
       const req = { body: {} };
       const res = { render: jest.fn() };
 
       await handlers.setupUser.post(req, res);
 
       expect(forms.UserForm).toHaveBeenCalledTimes(1);
-      expect(forms.UserForm).toHaveBeenCalledWith(req.body);
+      expect(forms.UserForm).toHaveBeenCalledWith({
+        firstName: 'Admin',
+        lastName: '',
+        role: 'admin',
+      });
     });
 
     it('should display error message given invalid data', async () => {
@@ -134,12 +138,12 @@ describe('setupUser handler', () => {
       const formObject = { isValid: () => true };
       forms.UserForm = jest.fn(() => formObject);
 
-      expect(database.createAdminUser).toHaveBeenCalledTimes(0);
+      expect(database.createUser).toHaveBeenCalledTimes(0);
 
       await handlers.setupUser.post(req, res);
 
-      expect(database.createAdminUser).toHaveBeenCalledTimes(1);
-      expect(database.createAdminUser).toHaveBeenCalledWith(formObject);
+      expect(database.createUser).toHaveBeenCalledTimes(1);
+      expect(database.createUser).toHaveBeenCalledWith(formObject);
     });
 
     it('should update settings given valid data', async () => {
@@ -163,7 +167,7 @@ describe('setupUser handler', () => {
       const formObject = { isValid: () => true };
       forms.UserForm = jest.fn(() => formObject);
       const userObject = {};
-      database.createAdminUser = jest.fn(() => userObject);
+      database.createUser = jest.fn(() => userObject);
 
       expect(req.login).toHaveBeenCalledTimes(0);
 
@@ -179,7 +183,7 @@ describe('setupUser handler', () => {
       const res = { status: jest.fn(() => responseObject) };
       const formObject = { isValid: () => true };
       forms.UserForm = jest.fn(() => formObject);
-      database.createAdminUser = jest.fn(() => {
+      database.createUser = jest.fn(() => {
         throw new Error();
       });
 

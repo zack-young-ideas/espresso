@@ -57,8 +57,24 @@ describe('Setup middleware', () => {
 });
 
 describe('Admin middleware', () => {
-  it('should redirect to login page if admin user is not logged in', () => {
+  it('should redirect to login page if user is not logged in', () => {
     const req = { path: '/admin/secret' };
+    const res = { redirect: jest.fn() };
+    const next = jest.fn();
+
+    expect(res.redirect).toHaveBeenCalledTimes(0);
+
+    middleware.adminRedirect(req, res, next);
+
+    expect(res.redirect).toHaveBeenCalledTimes(1);
+    expect(res.redirect).toHaveBeenCalledWith(302, '/admin/login');
+  });
+
+  it('should redirect to login page if non-admin user is logged in', () => {
+    const req = {
+      path: '/admin/secret',
+      user: { role: 'non-admin' },
+    };
     const res = { redirect: jest.fn() };
     const next = jest.fn();
 
@@ -73,7 +89,7 @@ describe('Admin middleware', () => {
   it('should call next() if admin user is logged in', () => {
     const req = {
       path: '/admin/secret',
-      user: { admin: true },
+      user: { role: 'admin' },
     };
     const res = { redirect: jest.fn() };
     const next = jest.fn();
