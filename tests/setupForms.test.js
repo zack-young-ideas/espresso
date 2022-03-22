@@ -72,6 +72,7 @@ describe('UserForm class', () => {
       password: 'BadPassword',
       confirmPassword: 'OtherBadPassword',
       email: 'steve@example.com',
+      role: 'admin',
     });
     expect(form.isValid()).toBe(false);
     expect(form.error).toBe('Passwords do not match');
@@ -83,6 +84,7 @@ describe('UserForm class', () => {
       password: 'short',
       confirmPassword: 'short',
       email: 'steve@example.com',
+      role: 'admin',
     });
     expect(form.isValid()).toBe(false);
     expect(form.error).toBe('Password must be at least 9 characters long');
@@ -94,6 +96,7 @@ describe('UserForm class', () => {
       password: 'LongerPassword',
       confirmPassword: 'LongerPassword',
       email: 'thisIsNotAnEmail',
+      role: 'admin',
     });
     expect(form.isValid()).toBe(false);
     expect(form.error).toBe('Invalid email');
@@ -105,9 +108,22 @@ describe('UserForm class', () => {
       password: 'passwords',
       confirmPassword: 'passwords',
       email: 'steve@example.com',
+      role: 'admin',
     });
     expect(form.isValid()).toBe(false);
     expect(form.error).toBe('Choose a less common password');
+  });
+
+  it('contains error message if role is invalid', () => {
+    const form = new forms.UserForm({
+      username: 'Steve',
+      password: '56tR3$aa2!sdjj',
+      confirmPassword: '56tR3$aa2!sdjj',
+      email: 'steve@example.com',
+      role: 'non-admin',
+    });
+    expect(form.isValid()).toBe(false);
+    expect(form.error).toBe('Invalid role');
   });
 
   it('isValid() method returns true if valid data is given', () => {
@@ -116,6 +132,7 @@ describe('UserForm class', () => {
       password: '56tR3$aa2!sdjj',
       confirmPassword: '56tR3$aa2!sdjj',
       email: 'steve@example.com',
+      role: 'admin',
     });
     expect(form.isValid()).toBe(true);
     expect(form.error).toBeUndefined();

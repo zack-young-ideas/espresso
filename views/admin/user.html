@@ -1,0 +1,86 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Create User | Admin{% endblock %}
+
+{% block main %}
+  <div class="container-fluid">
+    <div class="row">
+      <h2>Create New User</h2>
+      <fieldset>
+        <form action="/admin/auth/user/add" method="post">
+          <div class="mb-3">
+            <label for="user-username">Username</label>
+            <input class="form-control"
+                   id="user-username"
+                   type="text"
+                   placeholder="Username"
+                   name="username" />
+          </div>
+          <div class="mb-3">
+            <label for="user-email">Email</label>
+            <input class="form-control"
+                   id="user-email"
+                   type="text"
+                   placeholder="Email"
+                   name="email" />
+          </div>
+          <div class="mb-3">
+            <label for="user-firstname">First Name</label>
+            <input class="form-control"
+                   id="user-firstname"
+                   type="text"
+                   placeholder="First Name"
+                   name="firstName" />
+          </div>
+          <div class="mb-3">
+            <label for="user-lastname">Last Name</label>
+            <input class="form-control"
+                   id="user-lastname"
+                   type="text"
+                   placeholder="Last Name"
+                   name="lastName" />
+          </div>
+          <div class="mb-3">
+            <label for="user-password">Password</label>
+            <input class="form-control"
+                   id="user-password"
+                   type="password"
+                   placeholder="Password"
+                   name="password" />
+          </div>
+          <div class="mb-3">
+            <label for="confirm-password">Confirm Password</label>
+            <input class="form-control"
+                   id="confirm-password"
+                   type="password"
+                   placeholder="Confirm Password"
+                   name="confirmPassword" />
+          </div>
+          <div class="mb-3">
+            <label for="user-role">User Role</label>
+            <select class="form-select" id="user-role" name="role">
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          {% if errMessage %}
+            <p class="text-danger">{{ errMessage }}</p>
+          {% endif %}
+          <div class="mb-3">
+            <input class="btn btn-secondary"
+                   id="create-button"
+                   name="create"
+                   type="submit"
+                   value="Create" />
+          </div>
+        </form>
+      </fieldset>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="application/javascript" src="/static/js/tinymce.js">
+  </script>
+
+  <script src="/static/js/slugAutoFill.js"></script>
+{% endblock %}

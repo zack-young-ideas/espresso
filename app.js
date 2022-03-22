@@ -42,7 +42,7 @@ passport.serializeUser((user, callback) => {
       username: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
-      admin: user.admin,
+      role: user.role,
     });
   });
 });

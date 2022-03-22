@@ -17,7 +17,7 @@ jest.mock('mongoose', () => {
   };
 });
 
-describe('DatabaseDriver connect() method', () => {
+describe('database driver connect() method', () => {
   it('should call mongoose.connect() method', async () => {
     const testData = {
       username: 'Steve',
@@ -40,7 +40,7 @@ describe('DatabaseDriver connect() method', () => {
   });
 });
 
-describe('DatabaseDriver createAdminUser() method', () => {
+describe('database driver createUser() method', () => {
   let testData;
   let userObject;
 
@@ -49,6 +49,9 @@ describe('DatabaseDriver createAdminUser() method', () => {
       username: 'Steve',
       password: 'Supersecret',
       email: 'steve@example.com',
+      firstName: 'Steve',
+      lastName: 'O',
+      role: 'admin',
     };
     bcrypt.hashSync = jest.fn(() => 's0m3H4sh');
     userObject = { save: jest.fn() };
@@ -58,7 +61,7 @@ describe('DatabaseDriver createAdminUser() method', () => {
   it('should call bcrypt.hash() method', async () => {
     expect(bcrypt.hashSync).toHaveBeenCalledTimes(0);
 
-    await database.createAdminUser(testData);
+    await database.createUser(testData);
 
     expect(bcrypt.hashSync).toHaveBeenCalledTimes(1);
     expect(bcrypt.hashSync).toHaveBeenCalledWith(
@@ -70,14 +73,14 @@ describe('DatabaseDriver createAdminUser() method', () => {
   it('should create a new User object', async () => {
     expect(models.User).toHaveBeenCalledTimes(0);
 
-    await database.createAdminUser(testData);
+    await database.createUser(testData);
 
     expect(models.User).toHaveBeenCalledTimes(1);
     expect(userObject.save).toHaveBeenCalledTimes(1);
   });
 });
 
-describe('DatabaseDriver getUserByUsername() method', () => {
+describe('database driver getUserByUsername() method', () => {
   it('should call models.User.findOne() method', async () => {
     models.User.findOne = jest.fn();
 
@@ -90,7 +93,7 @@ describe('DatabaseDriver getUserByUsername() method', () => {
   });
 });
 
-describe('DatabaseDriver createBlogPost() method', () => {
+describe('database driver createBlogPost() method', () => {
   it('should construct a new BlogPost object', async () => {
     const blogPostObject = { save: jest.fn() };
     models.BlogPost = jest.fn(() => blogPostObject);

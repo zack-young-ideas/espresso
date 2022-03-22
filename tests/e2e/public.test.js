@@ -98,7 +98,7 @@ describe('Public pages', () => {
     await browser.wait(until.titleIs('First Post'), 3000);
     const currentUrl = await browser.getCurrentUrl();
     expect(currentUrl).toEqual(`${url}/blog/post/first-post`);
-    const postTitle = await browser.findElement(By.tagName('h2')).getText();
+    const postTitle = await browser.findElement(By.tagName('h1')).getText();
     expect(postTitle).toBe('First Post');
     const postAuthor = await browser
       .findElement(By.className('post-author')).getText();
