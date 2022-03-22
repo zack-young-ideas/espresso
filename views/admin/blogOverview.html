@@ -7,7 +7,7 @@
     <div class="row">
       <h2>Posts</h2>
       <div class="mt-3 mb-3">
-        <a class="btn btn-secondary"
+        <a class="btn btn-primary"
            href="/admin/blog/post/add">Add Post</a>
       </div>
     </div>
@@ -35,7 +35,9 @@
               <td>{{ post.author }}</td>
               <td>
                 {% if post.published %}
-                  *
+                  Yes
+                {% else %}
+                  No
                 {% endif %}
               </td>
               <td></td>
