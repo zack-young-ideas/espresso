@@ -67265,15 +67265,18 @@ exports.render = () => {
     height: 500,
     plugins: 'code codesample image',
     toolbar: 'undo redo | styleselect | bold italic | codesample image | alignleft aligncenter alignright alignjustify | outdent indent | code',
+    image_uploadtab: true,
+    images_upload_url: '/admin/upload-image',
+    images_upload_credentials: true,
     relative_urls: false,
     content_css: false,
-    content_style: contentCss.toString() + '\n' + contentCssUi.toString(),
+    content_style: `${contentCss.toString()}\n${contentCssUi.toString()}`,
   });
 };
 
 },{"tinymce/icons/default":5,"tinymce/plugins/code":6,"tinymce/plugins/codesample":8,"tinymce/plugins/image":10,"tinymce/skins/ui/oxide/skin.css":12,"tinymce/themes/silver":13,"tinymce/tinymce":15}],17:[function(require,module,exports){
-const editor = require('./editor.js');
+const editor = require('./editor');
 
 editor.render();
 
-},{"./editor.js":16}]},{},[17]);
+},{"./editor":16}]},{},[17]);
