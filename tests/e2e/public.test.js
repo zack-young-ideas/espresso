@@ -18,7 +18,7 @@ describe('Public pages', () => {
     url = `http://localhost:${port}`;
 
     // Stub the getBlogPosts() method of the database object.
-    database.getBlogPosts = () => {
+    database.getPublishedBlogPosts = () => {
       const blogPostsArray = [{
         title: 'First Post',
         author: 'Edgar Winter',

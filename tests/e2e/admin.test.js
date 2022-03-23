@@ -90,7 +90,7 @@ describe('Admin site', () => {
     authenticateAdminUser('admin', 'superSecret');
     // and is redirected to the admin dashboard.
     await browser.wait(until.titleIs('Admin'), 3000);
-    currentUrl = await browser.getCurrentUrl();
+    let currentUrl = await browser.getCurrentUrl();
     expect(currentUrl).toEqual(`${url}/admin`);
 
     // They click the button to create a new blog post.
@@ -132,7 +132,7 @@ describe('Admin site', () => {
     authenticateAdminUser('admin', 'superSecret');
     // and is redirected to the admin dashboard.
     await browser.wait(until.titleIs('Admin'), 3000);
-    currentUrl = await browser.getCurrentUrl();
+    let currentUrl = await browser.getCurrentUrl();
     expect(currentUrl).toEqual(`${url}/admin`);
 
     // After logging in, they click on the button to add a new user.

@@ -56,7 +56,6 @@ describe('settings object', () => {
 
   describe('completeSetup() method', () => {
     it('should write to database.json file', async () => {
-      const env = process.env.NODE_ENV;
       const filename = 'development.database.json';
       fs.readFile = jest.fn((fileName, callback) => {
         callback(null, '{}');
@@ -95,7 +94,6 @@ describe('settings object', () => {
 
   describe('initializeSettings() method', () => {
     it('should read from database.json file', async () => {
-      const env = process.env.NODE_ENV;
       const filename = 'development.database.json';
       fs.readFile = jest.fn((fileName, callback) => {
         callback(null, '{}');
