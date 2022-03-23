@@ -12,11 +12,11 @@ const LocalStrategy = require('passport-local');
 const passport = require('passport');
 const session = require('express-session');
 
-const adminRouter = require('./lib/admin/router');
+const adminRoutes = require('./lib/admin/routes');
 const database = require('./lib/database');
 const middleware = require('./lib/middleware');
 const settings = require('./config');
-const setupRouter = require('./lib/setup/router');
+const setupRoutes = require('./lib/setup/routes');
 
 const app = express();
 
@@ -79,8 +79,8 @@ app.get('/blog/post/:slug', async (req, res) => {
     res.status(404).render('public/404');
   }
 });
-app.use('/setup', setupRouter);
-app.use('/admin', adminRouter);
+app.use('/setup', setupRoutes);
+app.use('/admin', adminRoutes);
 app.use((req, res) => {
   res.status(404).render('public/404');
 });

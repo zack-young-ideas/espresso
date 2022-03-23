@@ -130,12 +130,12 @@ describe('user overview page handler', () => {
     it('should render userOverview.html template', async () => {
       const res = { render: jest.fn() };
       const users = [];
+      const context = { users };
       database.getUsers = jest.fn(() => users);
 
       await handlers.userOverview.get({}, res);
 
-      expect(res.render)
-        .toHaveBeenCalledWith('admin/userOverview', { users: users });
+      expect(res.render).toHaveBeenCalledWith('admin/userOverview', context);
     });
   });
 });
@@ -165,7 +165,7 @@ describe('create user page handler', () => {
     it('should display error message given invalid data', async () => {
       const req = {};
       const res = { render: jest.fn() };
-      formObject = {
+      const formObject = {
         isValid: () => false,
         error: 'Invalid form data',
       };
