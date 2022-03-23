@@ -1,22 +1,25 @@
 # Basic Blog
 
-This is a basic blog application that I created using Express. It is
-still a work in progress.
+This is a basic blog application that can be run using NodeJS.
 
-Before running the Web application, run the following command to
-initialize a configuration file:
+## Installation
 
-`./bin/index.js init`
+This app is not yet available with npm or yarn.
 
-The default configuration file is called config/development.js. It
-defines the secret key that is used to sign session cookies and the
-pepper used when hashing user passwords.
+After cloning a copy of the repository, run `npm install` to install
+all dependencies and initialize some important settings.
 
-Once the configuration is established, the following command can be
-used to launch a local Web server hosting the application:
+## Usage
 
-`./bin/index.js run`
+After installation, the `npm start` command will start a local server
+that hosts the blog application. Open a Web browser and visit
+http://localhost:3000 to begin the setup process. You will be prompted
+to enter the login credentials for the database and come up with a
+username and password for the site's admin user. The application
+requires a MongoDB database in order to work.
 
-WARNING: This application is not secure enough to use in production.
-Again, it is still a work in progress. Furthermore, the secret key and
-secret pepper values must be kept hidden at all costs.
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/) License.
+
+Copyright (c) 2022 Zachary Young.
