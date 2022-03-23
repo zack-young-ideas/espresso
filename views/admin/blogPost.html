@@ -8,6 +8,9 @@
       <h2>Create New Post</h2>
       <fieldset>
         <form action="/admin/blog/post/add" method="post">
+          {% if errMessage %}
+            <p class="text-danger">{{ errMessage }}</p>
+          {% endif %}
           <div class="mb-3">
             <label for="post-title">Title</label>
             <input class="form-control"
@@ -39,9 +42,6 @@
                       name="content"
                       placeholder="Text goes here"></textarea>
           </div>
-          {% if errMessage %}
-            <p class="text-danger">{{ errMessage }}</p>
-          {% endif %}
           <div class="mb-3">
             <input class="btn btn-secondary"
                    id="save-button"
