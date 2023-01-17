@@ -16,7 +16,8 @@ that hosts the blog application. Open a Web browser and visit
 http://localhost:3000 to begin the setup process. You will be prompted
 to enter the login credentials for the database and come up with a
 username and password for the site's admin user. The application
-requires a MongoDB database in order to work.
+requires a MongoDB database in order to work--currently, no other
+database management systems are supported.
 
 ## License
 
