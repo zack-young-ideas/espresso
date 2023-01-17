@@ -139,3 +139,6 @@ dist
 config/*.database.json
 # Ignore the default configuration file
 config/development.js
+
+# Ignore CSS and JS files compiled by Webpack and SASS
+public/

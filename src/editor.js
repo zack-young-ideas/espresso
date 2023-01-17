@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 const tinymce = require('tinymce/tinymce');
 require('tinymce/icons/default');
 require('tinymce/themes/silver');
@@ -8,14 +6,8 @@ require('tinymce/plugins/code');
 require('tinymce/plugins/codesample');
 require('tinymce/plugins/image');
 
-const contentCssUi = fs.readFileSync(
-  'node_modules/tinymce/skins/ui/oxide/content.css',
-  { encoding: 'UTF-8' },
-);
-const contentCss = fs.readFileSync(
-  'node_modules/tinymce/skins/content/default/content.css',
-  { encoding: 'UTF-8' },
-);
+const contentCssUi = require('tinymce/skins/ui/oxide/content.css');
+const contentCss = require('tinymce/skins/content/default/content.css');
 
 exports.render = () => {
   tinymce.init({
