@@ -37,7 +37,7 @@ switch (command) {
     if (!fs.existsSync(path.resolve(__dirname, '../public'))) {
       fs.mkdirSync(path.resolve(__dirname, '../public'));
     }
-    const sassFilename = path.join(__dirname, '../public/styles.scss');
+    const sassFilename = path.join(__dirname, '../public/styles.css');
     const sassOutput = sass.compile('./src/sass_files/main.scss');
     fs.writeFileSync(sassFilename, sassOutput.css);
 
