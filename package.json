@@ -29,19 +29,23 @@
     "sass": "^1.57.1",
     "tinymce": "^5.10.3",
     "validator": "^13.7.0",
-    "webpack": "^5.75.0",
     "xss": "^1.0.11"
   },
   "devDependencies": {
     "brfs": "^2.0.2",
     "browserify": "^17.0.0",
     "browserify-css": "^0.15.0",
+    "css-loader": "^6.8.1",
     "eslint": "^8.10.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
+    "html-webpack-plugin": "^5.5.1",
     "jest": "^27.5.1",
+    "mini-css-extract-plugin": "^2.7.6",
     "portfinder": "^1.0.28",
     "promise-polyfill": "^8.2.3",
-    "selenium-webdriver": "^4.1.1"
+    "selenium-webdriver": "^4.1.1",
+    "webpack": "^5.84.1",
+    "webpack-cli": "^5.1.1"
   }
 }
