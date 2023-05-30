@@ -9,7 +9,7 @@ require('tinymce/plugins/image');
 const contentCssUi = require('tinymce/skins/ui/oxide/content.css');
 const contentCss = require('tinymce/skins/content/default/content.css');
 
-exports.render = () => {
+render = () => {
   tinymce.init({
     selector: 'textarea#post-content',
     height: 500,
@@ -23,3 +23,5 @@ exports.render = () => {
     content_style: `${contentCss.toString()}\n${contentCssUi.toString()}`,
   });
 };
+
+render();
