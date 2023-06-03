@@ -10,6 +10,7 @@ const settings = require('../../config');
 jest.mock('../../lib/database');
 
 let browser;
+let userDatabase;
 let port;
 let server;
 let url;
@@ -19,18 +20,46 @@ describe('Admin site', () => {
     port = await portfinder.getPortPromise();
     url = `http://localhost:${port}`;
 
+    // * Stub the getUsers() method of the database object.
+    database.getUsers = () => userDatabase;
+    // * Stub the createUser() method of the database object to
+    // * add the new User object to the userDatabase variable defined
+    // * above.
+    database.createUser = (data, callback) => {
+      let newUser = {
+        username: data.username,
+        password: data.password,
+        email: data.email,
+        created: new Date(),
+        firstName: data.firstName,
+        lastName: data.lastName,
+        role: data.role,
+      };
+      userDatabase.push(newUser);
+      return newUser;
+    };
     // * Stub the getUserByUsername() method of the database object
     // * and then configure Passport to use this stubbed method when
     // * authenticating users.
     database.getUserByUsername = (username, password, callback) => {
-      const user = {
-        _id: '1234',
-        username: 'admin',
-        firstName: 'Zack',
-        lastName: 'Young',
-        role: 'admin',
-      };
-      return callback(null, user);
+      let user = null;
+      for (let i = 0; i < userDatabase.length; i++) {
+        if (userDatabase[i].username == username) {
+          user = userDatabase[i];
+          break;
+        } else {
+          continue;
+        }
+      }
+      if (user) {
+        return callback(null, user);
+      } else {
+        return callback(
+          null,
+          false,
+          { message: 'Incorrect username or password' },
+        );
+      }
     };
     passport.use(new LocalStrategy(
       { usernameField: 'username', passwordField: 'password' },
@@ -44,6 +73,16 @@ describe('Admin site', () => {
     // * Stub the properties of the settings object.
     settings.databaseUri = 'connection';
     settings.setup = true;
+    // * Initialize the userDatabase variable with a mock database.
+    userDatabase = [
+      {
+        _id: '1234',
+        username: 'admin',
+        firstName: 'Zack',
+        lastName: 'Young',
+        role: 'admin',
+      },
+    ];
   });
 
   afterEach(async () => {
@@ -148,9 +187,9 @@ describe('Admin site', () => {
     const emailField = await browser.findElement(By.name('email'));
     await emailField.sendKeys('new_user@example.com');
     const firstNameField = await browser.findElement(By.name('firstName'));
-    await firstNameField.sendKeys('Zack');
+    await firstNameField.sendKeys('George');
     const lastNameField = await browser.findElement(By.name('lastName'));
-    await lastNameField.sendKeys('Young');
+    await lastNameField.sendKeys('Costanza');
     const newPasswordField = await browser.findElement(By.name('password'));
     await newPasswordField.sendKeys('S%4eCr35tP45ssw0rDD');
     const confirmPasswordField = await browser
@@ -166,5 +205,15 @@ describe('Admin site', () => {
     await browser.wait(until.titleIs('Auth Overview | Admin'), 3000);
     currentUrl = await browser.getCurrentUrl();
     expect(currentUrl).toEqual(`${url}/admin/auth/user`);
+    // The page now lists the main admin along with the new user.
+    const tableBody = await browser.findElement(By.tagName('tbody'));
+    const rows = await tableBody.findElements(By.tagName('tr'));
+    expect(rows.length).toBe(2);
+    const secondRow = rows[1];
+    const rowCells = await secondRow.findElements(By.tagName('td'));
+    const username = await rowCells[1].getText();
+    const email = await rowCells[2].getText();
+    expect(username).toBe('newUser');
+    expect(email).toBe('new_user@example.com');
   });
 });
