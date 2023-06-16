@@ -76,32 +76,33 @@ describe('create blog post page handler', () => {
     it('should render blogPost.html template', () => {
       const res = { render: jest.fn() };
 
-      handlers.createBlogPost.get({}, res);
+      handlers.BlogPost.get({ params: {} }, res);
 
-      expect(res.render).toHaveBeenCalledWith('admin/blogPost');
+      expect(res.render)
+        .toHaveBeenCalledWith('admin/blogPost', { blogPost: null });
     });
   });
 
   describe('POST requests', () => {
     it('should construct a new BlogPostForm object', async () => {
-      const req = { body: {} };
+      const req = { body: {}, params: {} };
       const res = { render: jest.fn() };
 
-      await handlers.createBlogPost.post(req, res);
+      await handlers.BlogPost.post(req, res);
 
       expect(forms.BlogPostForm).toHaveBeenCalledTimes(1);
       expect(forms.BlogPostForm).toHaveBeenCalledWith(req.body);
     });
 
     it('should display error message given invalid data', async () => {
-      const req = {};
+      const req = { params: {} };
       const res = { render: jest.fn() };
       forms.BlogPostForm = jest.fn(() => ({
         isValid: () => false,
         error: 'Invalid form data',
       }));
 
-      await handlers.createBlogPost.post(req, res);
+      await handlers.BlogPost.post(req, res);
 
       expect(res.render).toHaveBeenCalledWith(
         'admin/blogPost',
@@ -110,14 +111,14 @@ describe('create blog post page handler', () => {
     });
 
     it('should create new blog post given valid data', async () => {
-      const req = {};
+      const req = { params: {} };
       const res = { redirect: jest.fn() };
       const formObject = { isValid: () => true };
       forms.BlogPostForm = jest.fn(() => formObject);
 
       expect(database.createBlogPost).toHaveBeenCalledTimes(0);
 
-      await handlers.createBlogPost.post(req, res);
+      await handlers.BlogPost.post(req, res);
 
       expect(database.createBlogPost).toHaveBeenCalledTimes(1);
       expect(database.createBlogPost).toHaveBeenCalledWith(formObject);

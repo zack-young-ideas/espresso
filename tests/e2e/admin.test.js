@@ -2,6 +2,7 @@ const LocalStrategy = require('passport-local');
 const passport = require('passport');
 const portfinder = require('portfinder');
 const { Builder, By, until } = require('selenium-webdriver');
+const createMockDatabase = require('./mockDatabase');
 
 const app = require('../../app');
 const database = require('../../lib/database');
@@ -11,6 +12,7 @@ jest.mock('../../lib/database');
 
 let browser;
 let userDatabase;
+let blogDatabase;
 let port;
 let server;
 let url;
@@ -19,52 +21,6 @@ describe('Admin site', () => {
   beforeAll(async () => {
     port = await portfinder.getPortPromise();
     url = `http://localhost:${port}`;
-
-    // * Stub the getUsers() method of the database object.
-    database.getUsers = () => userDatabase;
-    // * Stub the createUser() method of the database object to
-    // * add the new User object to the userDatabase variable defined
-    // * above.
-    database.createUser = (data, callback) => {
-      let newUser = {
-        username: data.username,
-        password: data.password,
-        email: data.email,
-        created: new Date(),
-        firstName: data.firstName,
-        lastName: data.lastName,
-        role: data.role,
-      };
-      userDatabase.push(newUser);
-      return newUser;
-    };
-    // * Stub the getUserByUsername() method of the database object
-    // * and then configure Passport to use this stubbed method when
-    // * authenticating users.
-    database.getUserByUsername = (username, password, callback) => {
-      let user = null;
-      for (let i = 0; i < userDatabase.length; i++) {
-        if (userDatabase[i].username == username) {
-          user = userDatabase[i];
-          break;
-        } else {
-          continue;
-        }
-      }
-      if (user) {
-        return callback(null, user);
-      } else {
-        return callback(
-          null,
-          false,
-          { message: 'Incorrect username or password' },
-        );
-      }
-    };
-    passport.use(new LocalStrategy(
-      { usernameField: 'username', passwordField: 'password' },
-      database.getUserByUsername,
-    ));
   });
 
   beforeEach(async () => {
@@ -73,7 +29,9 @@ describe('Admin site', () => {
     // * Stub the properties of the settings object.
     settings.databaseUri = 'connection';
     settings.setup = true;
-    // * Initialize the userDatabase variable with a mock database.
+    // * Initialize the blogDatabase and userDatabase variables
+    // * with mock databases.
+    blogDatabase = [];
     userDatabase = [
       {
         _id: '1234',
@@ -83,6 +41,11 @@ describe('Admin site', () => {
         role: 'admin',
       },
     ];
+    createMockDatabase(database, userDatabase, blogDatabase);
+    passport.use(new LocalStrategy(
+      { usernameField: 'username', passwordField: 'password' },
+      database.getUserByUsername,
+    ));
   });
 
   afterEach(async () => {
@@ -124,6 +87,20 @@ describe('Admin site', () => {
     await submitButton.click();
   };
 
+  const publishPost = async (title, slug, tags, text) => {
+    // A function to quickly create or update a blog post.
+    const titleField = await browser.findElement(By.name('title'));
+    await titleField.sendKeys(title);
+    const slugField = await browser.findElement(By.name('slug'));
+    const slugValue = await slugField.getAttribute('value');
+    expect(slugValue).toBe(slug);
+    const tagsField = await browser.findElement(By.name('tags'));
+    await tagsField.sendKeys(tags);
+    await browser.executeScript(`tinyMCE.activeEditor.setContent("${text}")`);
+    const publishButton = await browser.findElement(By.id('publish-button'));
+    await browser.executeScript('arguments[0].click()', publishButton);
+  };
+
   it('should allow admin to create new posts', async () => {
     // The admin user logs into the admin site...
     authenticateAdminUser('admin', 'superSecret');
@@ -139,15 +116,6 @@ describe('Admin site', () => {
     currentUrl = await browser.getCurrentUrl();
     expect(currentUrl).toEqual(`${url}/admin/blog/post/add`);
     // They proceed to create a new post.
-    const titleField = await browser.findElement(By.name('title'));
-    await titleField.sendKeys('New Post');
-    // The slug field is automatically filled in with a value based
-    // on the title.
-    const slugField = await browser.findElement(By.name('slug'));
-    const slugValue = await slugField.getAttribute('value');
-    expect(slugValue).toBe('new-post');
-    const tagsField = await browser.findElement(By.name('tags'));
-    await tagsField.sendKeys('example,test');
     const text = ([
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       'Phasellus sapien sapien, vulputate sed massa dictum,',
@@ -155,15 +123,87 @@ describe('Admin site', () => {
       'facilisis vel ac magna. Maecenas posuere fermentum nisl',
       'quis gravida.',
     ]).join(' ');
-    await browser.executeScript(`tinyMCE.activeEditor.setContent("${text}")`);
+    await publishPost('New Post', 'new-post', 'example,test', text);
+
+    // After publishing the new post, they are redirected to the page
+    // that displays all blog posts.
+    await browser.wait(until.titleIs('Blog Overview | Admin'), 3000);
+    currentUrl = await browser.getCurrentUrl();
+    expect(currentUrl).toEqual(`${url}/admin/blog/post`);
+    // The new post is displayed in the list of posts.
+    const tableBody = await browser.findElement(By.tagName('tbody'));
+    const rows = await tableBody.findElements(By.tagName('tr'));
+    expect(rows.length).toBe(1);
+    const firstRow = rows[0];
+    const rowCells = await firstRow.findElements(By.tagName('td'));
+    const title = await rowCells[1].getText();
+    const author = await rowCells[2].getText();
+    expect(title).toBe('New Post');
+    expect(author).toBe('Admin');
+  });
+
+  it('should allow admin to edit existing posts', async () => {
+    // The admin user logs into the admin site...
+    authenticateAdminUser('admin', 'superSecret');
+    // and is redirected to the admin dashboard.
+    await browser.wait(until.titleIs('Admin'), 3000);
+    let currentUrl = await browser.getCurrentUrl();
+    expect(currentUrl).toEqual(`${url}/admin`);
+
+    // They click the button to create a new blog post.
+    const addPostButton = await browser.findElement(By.id('add-post'));
+    await addPostButton.click();
+    await browser.wait(until.titleIs('Create Blog Post | Admin'), 3000);
+    currentUrl = await browser.getCurrentUrl();
+    expect(currentUrl).toEqual(`${url}/admin/blog/post/add`);
+    // They proceed to create a new post.
+    const text = ([
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'Phasellus sapien sapien, vulputate sed massa dictum,',
+      'sodales maximus neque. Morbi eu velit quis tortor commodo',
+      'facilisis vel ac magna. Maecenas posuere fermentum nisl',
+      'quis gravida.',
+    ]).join(' ');
+    await publishPost('New Post', 'new-post', 'example,test', text);
+
+    // After publishing the new post, they are redirected to the page
+    // that lists all blog posts.
+    await browser.wait(until.titleIs('Blog Overview | Admin'), 3000);
+    currentUrl = await browser.getCurrentUrl();
+    expect(currentUrl).toEqual(`${url}/admin/blog/post`);
+    // They click the button to edit the post.
+    const tableBody = await browser.findElement(By.tagName('tbody'));
+    const rows = await tableBody.findElements(By.tagName('tr'));
+    const firstRow = rows[0];
+    const editButton = await firstRow.findElement(By.linkText('Edit'));
+    await editButton.click();
+    // They are redirected to the page that allows them to edit the
+    // post.
+    await browser.wait(until.titleIs('Edit Blog Post | Admin'), 3000);
+    currentUrl = await browser.getCurrentUrl();
+    expect(currentUrl).toEqual(`${url}/admin/blog/post/edit/new-post`);
+    // They proceed to edit the post.
+    const newText = ([
+      'Costanza, what is that you\'re eating over there? That looks',
+      'pretty tasty.',
+    ]).join(' ');
+    await browser.executeScript(
+      `tinyMCE.activeEditor.setContent("${newText}")`,
+    );
     const publishButton = await browser.findElement(By.id('publish-button'));
     await browser.executeScript('arguments[0].click()', publishButton);
-
-    // After publishing the new post, they are redirected to the admin
-    // dashboard.
-    await browser.wait(until.titleIs('Admin'), 3000);
+    // After updating the post, they are redirected to the blog post
+    // overview page.
+    await browser.wait(until.titleIs('Blog Overview | Admin'), 3000);
     currentUrl = await browser.getCurrentUrl();
-    expect(currentUrl).toEqual(`${url}/admin`);
+    expect(currentUrl).toEqual(`${url}/admin/blog/post`);
+    // They view the public post and confirm that the changes have been
+    // made.
+    await browser.get(`${url}/blog/post/new-post`);
+    await browser.wait(until.titleIs('New Post'), 3000);
+    const postContent = await browser
+      .findElement(By.className('main-content')).getText();
+    expect(postContent).toBe(newText);
   });
 
   it('should allow admin to create new admin users', async () => {

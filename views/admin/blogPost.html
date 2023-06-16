@@ -1,6 +1,12 @@
 {% extends 'admin/base.html' %}
 
-{% block title %}Create Blog Post | Admin{% endblock %}
+{% block title %}
+  {% if blogPost %}
+    Edit Blog Post | Admin
+  {% else %}
+    Create Blog Post | Admin
+  {% endif %}
+{% endblock %}
 
 {% block stylesheets %}
   <link href="/static/js/tinymce.css" rel="stylesheet" />
@@ -27,9 +33,17 @@
 
   <div class="container-fluid">
     <div class="row">
-      <h2>Create New Post</h2>
+      {% if blogPost %}
+        <h2>Edit Post</h2>
+      {% else %}
+        <h2>Create New Post</h2>
+      {% endif %}
       <fieldset>
+      {% if blogPost %}
+        <form action="/admin/blog/post/edit/{{ blogPost.slug}}" method="post">
+      {% else %}
         <form action="/admin/blog/post/add" method="post">
+      {% endif %}
           {% if errMessage %}
             <p class="text-danger">{{ errMessage }}</p>
           {% endif %}
@@ -38,14 +52,20 @@
             <input class="form-control"
                    id="post-title"
                    type="text"
+                   {% if blogPost %}
+                   value="{{ blogPost.title }}"
+                   {% endif %}
                    placeholder="Enter title here"
-                   name="title" />
+                   name="title"/>
           </div>
           <div class="mb-3">
             <label for="post-slug">Slug</label>
             <input class="form-control"
                    id="post-slug"
                    type="text"
+                   {% if blogPost %}
+                   value="{{ blogPost.slug }}"
+                   {% endif %}
                    placeholder="Slug"
                    name="slug" />
           </div>
@@ -54,6 +74,9 @@
             <input class="form-control"
                    id="tags"
                    type="text"
+                   {% if blogPost %}
+                   value="{{ blogPost.tags.join(',') }}"
+                   {% endif %}
                    placeholder="Tags"
                    name="tags" />
           </div>
@@ -61,8 +84,12 @@
             <label for="post-content">Post Content</label>
             <textarea class="form-control"
                       id="post-content"
-                      name="content"
-                      placeholder="Text goes here"></textarea>
+                      placeholder="Text goes here"
+                      name="content">
+              {% if blogPost %}
+                {{ blogPost.body }}
+              {% endif %}
+            </textarea>
           </div>
           <div class="mb-3">
             <input class="btn btn-secondary"
