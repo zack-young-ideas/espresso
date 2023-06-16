@@ -7,7 +7,7 @@ process.env.NODE_ENV = 'development';
 
 module.exports = {
   // All imported modules in your tests should be mocked automatically
-  // automock: false,
+  // automock: true,
 
   // Stop running tests after `n` failures
   // bail: 0,
@@ -149,7 +149,7 @@ module.exports = {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-     "**/tests/**/*.[jt]s?(x)",
+     "**/tests/**/*.test.[jt]s?(x)",
   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
