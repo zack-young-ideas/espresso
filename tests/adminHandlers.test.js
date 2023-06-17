@@ -111,7 +111,7 @@ describe('create blog post page handler', () => {
     });
 
     it('should create new blog post given valid data', async () => {
-      const req = { params: {} };
+      const req = { params: {}, file: { filename: 'ocean.jpg' } };
       const res = { redirect: jest.fn() };
       const formObject = { isValid: () => true };
       forms.BlogPostForm = jest.fn(() => formObject);

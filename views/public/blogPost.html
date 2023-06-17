@@ -8,6 +8,9 @@
       <div class="col-12 col-md-8">
         <div class="blogpost">
           <h1 class="mb-2">{{ post.title }}</h1>
+          <img class="main-image"
+               src="/static/images/{{ post.image }}"
+               alt="{{ post.title }}" />
           <p class="mb-1 text-muted">{{ post.created }}</p>
           <p class="post-author">{{ post.author }}</p>
           <div class="main-content">{{ post.body | safe }}</div>

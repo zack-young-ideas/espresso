@@ -40,9 +40,13 @@
       {% endif %}
       <fieldset>
       {% if blogPost %}
-        <form action="/admin/blog/post/edit/{{ blogPost.slug}}" method="post">
+        <form action="/admin/blog/post/edit/{{ blogPost.slug}}"
+              enctype="multipart/form-data"
+              method="post">
       {% else %}
-        <form action="/admin/blog/post/add" method="post">
+        <form action="/admin/blog/post/add"
+              enctype="multipart/form-data"
+              method="post">
       {% endif %}
           {% if errMessage %}
             <p class="text-danger">{{ errMessage }}</p>
@@ -68,6 +72,16 @@
                    {% endif %}
                    placeholder="Slug"
                    name="slug" />
+          </div>
+          <div class="mb-3">
+            <label for="main-image">Image</label>
+            <input class="form-control"
+                   id="main-image"
+                   type="file"
+                   {% if blogPost %}
+                   value="{{ blogPost.image }}"
+                   {% endif %}
+                   name="image" />
           </div>
           <div class="mb-3">
             <label for="tags">Tags</label>
