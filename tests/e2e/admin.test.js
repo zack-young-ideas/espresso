@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local');
 const passport = require('passport');
+const path = require('path');
 const portfinder = require('portfinder');
 const { Builder, By, until } = require('selenium-webdriver');
 const createMockDatabase = require('./mockDatabase');
@@ -87,13 +88,15 @@ describe('Admin site', () => {
     await submitButton.click();
   };
 
-  const publishPost = async (title, slug, tags, text) => {
+  const publishPost = async (title, slug, image, tags, text) => {
     // A function to quickly create or update a blog post.
     const titleField = await browser.findElement(By.name('title'));
     await titleField.sendKeys(title);
     const slugField = await browser.findElement(By.name('slug'));
     const slugValue = await slugField.getAttribute('value');
     expect(slugValue).toBe(slug);
+    const imageField = await browser.findElement(By.name('image'));
+    await imageField.sendKeys(path.join(__dirname, '/ocean.jpg'));
     const tagsField = await browser.findElement(By.name('tags'));
     await tagsField.sendKeys(tags);
     await browser.executeScript(`tinyMCE.activeEditor.setContent("${text}")`);
@@ -123,7 +126,13 @@ describe('Admin site', () => {
       'facilisis vel ac magna. Maecenas posuere fermentum nisl',
       'quis gravida.',
     ]).join(' ');
-    await publishPost('New Post', 'new-post', 'example,test', text);
+    await publishPost(
+      'New Post',
+      'new-post',
+      `${__dirname}/ocean.jpg`,
+      'example,test',
+      text,
+    );
 
     // After publishing the new post, they are redirected to the page
     // that displays all blog posts.
@@ -164,7 +173,13 @@ describe('Admin site', () => {
       'facilisis vel ac magna. Maecenas posuere fermentum nisl',
       'quis gravida.',
     ]).join(' ');
-    await publishPost('New Post', 'new-post', 'example,test', text);
+    await publishPost(
+      'New Post',
+      'new-post',
+      `${__dirname}/ocean.jpg`,
+      'example,test',
+      text,
+    );
 
     // After publishing the new post, they are redirected to the page
     // that lists all blog posts.
@@ -255,5 +270,48 @@ describe('Admin site', () => {
     const email = await rowCells[2].getText();
     expect(username).toBe('newUser');
     expect(email).toBe('new_user@example.com');
+  });
+
+  it('should allow new posts to contain a main image', async () => {
+    // The admin user logs into the admin site...
+    authenticateAdminUser('admin', 'superSecret');
+    // and is redirected to the admin dashboard.
+    await browser.wait(until.titleIs('Admin'), 3000);
+    let currentUrl = await browser.getCurrentUrl();
+    expect(currentUrl).toEqual(`${url}/admin`);
+
+    // They click the button to create a new blog post.
+    const addPostButton = await browser.findElement(By.id('add-post'));
+    await addPostButton.click();
+    await browser.wait(until.titleIs('Create Blog Post | Admin'), 3000);
+    currentUrl = await browser.getCurrentUrl();
+    expect(currentUrl).toEqual(`${url}/admin/blog/post/add`);
+    // They proceed to create a new post.
+    const text = ([
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'Phasellus sapien sapien, vulputate sed massa dictum,',
+      'sodales maximus neque. Morbi eu velit quis tortor commodo',
+      'facilisis vel ac magna. Maecenas posuere fermentum nisl',
+      'quis gravida.',
+    ]).join(' ');
+    await publishPost(
+      'New Post',
+      'new-post',
+      `${__dirname}/ocean.jpg`,
+      'example,test',
+      text,
+    );
+    // After publishing the new post, they are redirected to the page
+    // that displays all blog posts.
+    await browser.wait(until.titleIs('Blog Overview | Admin'), 3000);
+    currentUrl = await browser.getCurrentUrl();
+    expect(currentUrl).toEqual(`${url}/admin/blog/post`);
+    // They view the public post and confirm that the post displays
+    // the image.
+    await browser.get(`${url}/blog/post/new-post`);
+    await browser.wait(until.titleIs('New Post'), 3000);
+    const image = await browser.findElement(By.className('main-image'));
+    const altText = await image.getAttribute('alt');
+    expect(altText).toBe('New Post');
   });
 });
