@@ -6,7 +6,7 @@ This is a basic blog application that can be run using NodeJS.
 
 This app is not yet available with npm or yarn.
 
-After cloning a copy of the repository, run `npm install` to install
+After cloning a copy of the repository, run `npm run build` to install
 all dependencies and initialize some important settings.
 
 ## Usage
