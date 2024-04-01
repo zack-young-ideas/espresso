@@ -15,7 +15,7 @@ try {
     secretKey: utils.createRandomSecret(),
     secretPepper: utils.createRandomSecret(),
     setup: false,
-  }
+  };
 }
 settings.setup = false;
 settings.updateDatabase = (connectionParams) => {
