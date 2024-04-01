@@ -5,7 +5,7 @@
   "main": "bin/index.js",
   "bin": "./bin/index.js",
   "scripts": {
-    "install": "./bin/index.js init",
+    "build": "./bin/index.js init",
     "start": "./bin/index.js run",
     "test": "jest"
   },
