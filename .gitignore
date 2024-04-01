@@ -142,3 +142,6 @@ config/development.js
 
 # Ignore CSS and JS files compiled by Webpack and SASS
 public/
+
+# Ignore swap files
+*.swp

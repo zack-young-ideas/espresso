@@ -4,16 +4,16 @@ const { Builder, By, until } = require('selenium-webdriver');
 const app = require('../../app');
 const database = require('../../lib/database');
 const settings = require('../../config');
+const utils = require('../../lib/utils');
 
-jest.mock('fs', () => {
-  const originalModule = jest.requireActual('fs');
-
-  return {
-    ...originalModule,
-    writeFile: jest.fn((filename, data, callback) => callback()),
-  };
-});
 jest.mock('../../lib/database');
+jest.mock('../../config');
+settings.updateDatabase = (connectionParams) => {
+  settings.databaseUri = utils.getMongoConnectionUri(connectionParams);
+};
+settings.completeSetup = () => {
+  settings.setup = true;
+};
 
 let browser;
 let port;
