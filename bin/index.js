@@ -13,6 +13,7 @@ const sass = require('sass');
 const webpack = require('webpack');
 
 const utils = require('../lib/utils');
+const webpackConfig = require('./webpack.config.js');
 
 let app;
 let database;
@@ -42,18 +43,6 @@ switch (command) {
     fs.writeFileSync(sassFilename, sassOutput.css);
 
     // Use Webpack to compile the site's frontend JavaScript files.
-    const webpackConfig = {
-      mode: 'development',
-      entry: {
-        deleteButton: './src/deleteButton',
-        slugAutoFill: './src/slugAutoFill',
-        tinymce: './src/tinymce',
-      },
-      output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, '../public/js'),
-      },
-    };
     webpack(webpackConfig, (err) => {
       if (err) {
         console.error(err.stack || err);
