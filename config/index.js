@@ -6,7 +6,17 @@ const utils = require('../lib/utils');
 const env = process.env.NODE_ENV || 'development';
 const databaseSettingsFile = path.join(__dirname, `${env}.database.json`);
 
-const settings = require(`./${env}.js`); // eslint-disable-line
+let settings;
+try {
+  settings = require(`./${env}.js`); // eslint-disable-line
+} catch (error) {
+  settings = {
+    databaseDriver: 'mongo',
+    secretKey: utils.createRandomSecret(),
+    secretPepper: utils.createRandomSecret(),
+    setup: false,
+  }
+}
 settings.setup = false;
 settings.updateDatabase = (connectionParams) => {
   /*
