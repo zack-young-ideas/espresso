@@ -1,9 +1,3 @@
-/**
- * Sample configuration file.
- *
- * This script is used to run tests against the Settings class.
- */
-
 module.exports = {
   database: {
     name: 'database_name',
