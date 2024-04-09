@@ -54,7 +54,7 @@ describe('settings object', () => {
     });
   });
 
-  describe('completeSetup() method', () => {
+  describe('createRootUser() method', () => {
     it('should write to database.json file', async () => {
       const filename = 'development.database.json';
       fs.readFile = jest.fn((fileName, callback) => {
@@ -67,7 +67,7 @@ describe('settings object', () => {
       expect(fs.readFile).toHaveBeenCalledTimes(0);
       expect(fs.writeFile).toHaveBeenCalledTimes(0);
 
-      settings.completeSetup();
+      settings.createRootUser();
 
       expect(fs.readFile).toHaveBeenCalledTimes(1);
       let firstArg = fs.readFile.mock.calls[0][0].split('/');
@@ -86,7 +86,7 @@ describe('settings object', () => {
         callback(null, '{}');
       });
 
-      settings.completeSetup();
+      settings.createRootUser();
 
       expect(settings.setup).toBe(true);
     });

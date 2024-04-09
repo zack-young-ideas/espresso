@@ -34,8 +34,10 @@ settings.updateDatabase = (connectionParams) => {
   });
 };
 
-settings.completeSetup = () => {
+settings.createRootUser = () => {
   /*
+  Creates a root admin user during the setup process.
+
   After an admin user is created, update the settings object to
   indicate that the setup process is complete. This ensures that
   all future requests to the setup URLs result in a 404 response.
