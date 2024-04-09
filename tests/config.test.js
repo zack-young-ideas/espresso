@@ -1,6 +1,8 @@
 const fs = require('fs');
+const path = require('path');
 
 const settings = require('../config/index');
+const Settings = require('../config/utils');
 const utils = require('../lib/utils');
 
 jest.mock('fs');
@@ -129,5 +131,23 @@ describe('settings object', () => {
         .toBe(utils.getMongoConnectionUri(dataObject));
       expect(settings.setup).toBe(true);
     });
+  });
+});
+
+describe('Settings class', () => {
+  describe('constructor method', () => {
+    it('should import settings given the name of a settings file', () => {
+      const filename = path.join(__dirname, '../config/sampleConfig.js');
+      const settings = new Settings(filename);
+
+      expect(settings.secretKey).toBe('secret_key');
+      expect(settings.secretPepper).toBe('secret_pepper');
+      expect(settings.database.name).toBe('database_name');
+      expect(settings.database.driver).toBe('database_driver');
+      expect(settings.database.username).toBe('username');
+      expect(settings.database.password).toBe('password');
+      expect(settings.database.host).toBe('localhost:27017');
+    });
+
   });
 });
