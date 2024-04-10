@@ -1,7 +1,7 @@
 const { writeFile } = require('node:fs/promises');
 path = require('node:path');
 
-const Settings = require('../config/utils');
+const { Settings } = require('../lib/utils');
 
 jest.mock('node:fs/promises', () => ({
   writeFile: jest.fn(() => null),
