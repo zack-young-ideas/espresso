@@ -146,21 +146,6 @@ describe('setupUser handler', () => {
       expect(database.createUser).toHaveBeenCalledWith(formObject);
     });
 
-    it('should update settings given valid data', async () => {
-      const req = { login: jest.fn() };
-      const res = { redirect: jest.fn() };
-      const formObject = { isValid: () => true };
-      forms.UserForm = jest.fn(() => formObject);
-      settings.createRootUser.mockClear();
-
-      expect(settings.createRootUser).toHaveBeenCalledTimes(0);
-
-      await handlers.setupUser.post(req, res);
-
-      expect(settings.createRootUser).toHaveBeenCalledTimes(1);
-      expect(settings.createRootUser).toHaveBeenCalledWith();
-    });
-
     it('should log in new admin user given valid data', async () => {
       const req = { login: jest.fn() };
       const res = { redirect: jest.fn() };

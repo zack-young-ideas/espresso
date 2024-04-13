@@ -3,7 +3,7 @@
  * https://jestjs.io/docs/configuration
  */
 
-process.env.NODE_ENV = 'development';
+process.env.NODE_ENV = 'testing';
 
 module.exports = {
   // All imported modules in your tests should be mocked automatically
