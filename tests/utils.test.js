@@ -35,6 +35,31 @@ describe('Settings class', () => {
     });
   });
 
+  describe('databaseUri property', () => {
+    it('should change when database settings change', () => {
+      const filename = path.join(__dirname, '../config/sampleConfig.js');
+      const settings = new Settings(filename);
+
+      let expectedString = ('mongodb://username:password@'
+                            + 'localhost:27017/database_name'
+                            + '?authSource=admin');
+      expect(settings.databaseUri).toBe(expectedString);
+
+      settings.database = {
+        name: 'new_database',
+        driver: 'mongo',
+        username: 'John',
+        password: 'SuperSecret',
+        host: '192.1.2.67:27017',
+      };
+
+      expectedString = ('mongodb://John:SuperSecret@'
+                        + '192.1.2.67:27017/new_database'
+                        + '?authSource=admin');
+      expect(settings.databaseUri).toBe(expectedString);
+    });
+  });
+
   describe('write method', () => {
     beforeEach(() => {
       writeFile.mockClear();
@@ -104,25 +129,6 @@ describe('Settings class', () => {
       expect(settings.database.password).toBe('new_password');
       expect(settings.database.host).toBe('new_IP_address:new_port');
       expect(settings.write).toHaveBeenCalledTimes(1);
-    });
-
-    it('should assign a value to the databaseUri property', () => {
-      const settings = new Settings();
-      // Mock the write method of the settings object.
-      settings.write = jest.fn(() => null);
-      const formObject = {
-        databaseName: 'blog',
-        username: 'john_smith',
-        password: 'super_secret_password',
-        databaseIp: '168.0.1.12',
-        databasePort: '27017',
-      };
-
-      expect(settings.databaseUri).toBeUndefined();
-
-      settings.updateDatabase(formObject);
-
-      expect(settings.databaseUri).toBe(getMongoConnectionUri(formObject));
     });
   });
 });

@@ -19,18 +19,13 @@ jest.mock('mongoose', () => {
 
 describe('database driver connect() method', () => {
   it('should call mongoose.connect() method', async () => {
-    const testData = {
-      username: 'Steve',
-      password: 'Supersecret',
-      databaseName: 'test',
-      databaseIp: '127.0.0.1',
-      databasePort: '3000',
-    };
-    const connectionString = utils.getMongoConnectionUri(testData);
+    const connectionString = ('mongodb://username:password@'
+                              + 'localhost:27017/database_name'
+                              + '?authSource=admin');
 
     expect(mongoose.connect).toHaveBeenCalledTimes(0);
 
-    await database.connect(testData);
+    await database.connect(connectionString);
 
     expect(mongoose.connect).toHaveBeenCalledTimes(1);
     expect(mongoose.connect).toHaveBeenCalledWith(
