@@ -55,13 +55,11 @@ switch (command) {
     database = require('../lib/database');
     settings = require('../config');
 
-    settings.initializeSettings(() => {
-      if (settings.databaseUri) {
-        database.connect(settings.databaseSettings);
-      }
-      app.listen(port, () => {
-        console.log(`Listening on port ${port}...`); // eslint-disable-line
-      });
+    if (settings.databaseUri) {
+      database.connect(settings.databaseSettings);
+    }
+    app.listen(port, () => {
+      console.log(`Listening on port ${port}...`); // eslint-disable-line
     });
     break;
   }

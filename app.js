@@ -59,7 +59,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // Configure the Nunjucks template engine.
 app.set('views', path.join(__dirname, 'views'));
-expressNunjucks(app, { noCache: true });
+expressNunjucks.default(app, { noCache: true });
 
 // Enable body parsing.
 app.use(bodyParser.urlencoded({ extended: true }));
