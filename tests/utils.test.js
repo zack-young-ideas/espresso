@@ -13,6 +13,7 @@ describe('Settings class', () => {
       const filename = path.join(__dirname, '../config/sampleConfig.js');
       const settings = new Settings(filename);
 
+      expect(settings.setup).toBe(true);
       expect(settings.secretKey).toBe('secret_key');
       expect(settings.secretPepper).toBe('secret_pepper');
       expect(settings.database.name).toBe('database_name');
@@ -25,6 +26,7 @@ describe('Settings class', () => {
     it('should use default settings if settings file fails', () => {
       const settings = new Settings('not_a_real_file.js');
 
+      expect(settings.setup).toBe(false);
       expect(settings.secretKey).toBeTruthy();
       expect(settings.secretPepper).toBeTruthy();
       expect(settings.database.name).toBeNull();
@@ -37,6 +39,8 @@ describe('Settings class', () => {
     it('should use default settings if no settings file is given', () => {
       const settings = new Settings();
 
+      console.log(settings);
+      expect(settings.setup).toBe(false);
       expect(settings.secretKey).toBeTruthy();
       expect(settings.secretPepper).toBeTruthy();
       expect(settings.database.name).toBeNull();

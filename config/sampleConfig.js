@@ -1,4 +1,5 @@
 module.exports = {
+  setup: true,
   database: {
     name: 'database_name',
     driver: 'database_driver',
