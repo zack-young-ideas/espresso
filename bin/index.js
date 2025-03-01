@@ -41,7 +41,13 @@ switch (command) {
   }
   case 'run': {
     if (settings.databaseUri) {
-      database.connect(settings.databaseUri);
+      try {
+        database.connect(settings.databaseUri);
+      } catch {
+        console.error(
+          'Unable to connect to database: Invalid login credentials'
+        );
+      }
     }
     app.listen(port, () => {
       console.log(`Listening on port ${port}...`);
