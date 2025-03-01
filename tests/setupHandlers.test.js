@@ -50,13 +50,17 @@ describe('setupDatabase handler', () => {
       const res = { redirect: jest.fn() };
       const formObject = { isValid: () => true };
       forms.DatabaseForm = jest.fn(() => formObject);
+      const expectedString = ('mongodb://username:password@'
+                              + 'localhost:27017/database_name'
+                              + '?authSource=admin');
+      settings.databaseUri = expectedString;
 
       expect(database.connect).toHaveBeenCalledTimes(0);
 
       await handlers.setupDatabase.post(req, res);
 
       expect(database.connect).toHaveBeenCalledTimes(1);
-      expect(database.connect).toHaveBeenCalledWith(formObject);
+      expect(database.connect).toHaveBeenCalledWith(expectedString);
     });
 
     it('should update settings given valid data', async () => {
