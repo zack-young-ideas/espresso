@@ -150,6 +150,21 @@ describe('setupUser handler', () => {
       expect(database.createUser).toHaveBeenCalledWith(formObject);
     });
 
+    it('should write settings to file on disk', async () => {
+      const req = { login: jest.fn() };
+      const res = { redirect: jest.fn() };
+      const formObject = { isValid: () => true };
+      forms.UserForm = jest.fn(() => formObject);
+      settings.write = jest.fn();
+
+      expect(settings.write).toHaveBeenCalledTimes(0);
+
+      await handlers.setupUser.post(req, res);
+
+      expect(settings.write).toHaveBeenCalledTimes(1);
+      expect(settings.write).toHaveBeenCalledWith();
+    });
+
     it('should log in new admin user given valid data', async () => {
       const req = { login: jest.fn() };
       const res = { redirect: jest.fn() };
