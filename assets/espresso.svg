@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="103mm"
+   height="29mm"
+   viewBox="0 0 103 29"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <g
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:28.5604px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#615141;fill-opacity:1;stroke:none;stroke-width:0.714012"
+       x="34.280838"
+       y="19.547821"
+       id="text236"><tspan
+         id="tspan234"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Cookie;-inkscape-font-specification:Cookie;fill:#615141;fill-opacity:1;stroke-width:0.714012"
+         x="34.280838"
+         y="19.547821">Espresso</tspan></text>
+    <path
+       id="path1326"
+       style="fill:#ffffff;fill-opacity:1;stroke:#615141;stroke-width:1.8;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       d="M 12.490206,1.275191 C 6.2849984,1.272221 1.5318564,2.9990207 1.5318324,5.1254807 c 0.0017,0.0262 0.0041,0.0524 0.0073,0.0785 -0.0092,0.18123 -0.01518,0.36264 -0.0179,0.54412 0.0028,5.6506203 3.13037,11.9361003 7.925593,14.0987103 1.0393746,0.430292 2.0769056,0.550796 3.1072556,0.552806 1.027535,-0.002 2.090349,-0.112628 3.034191,-0.551816 4.765469,-2.17814 7.866726,-8.44714 7.869257,-14.0738503 -0.0026,-0.18392 -0.0086,-0.36775 -0.0179,-0.55141 0.0042,-0.0324 0.0071,-0.0647 0.0089,-0.0971 C 23.426759,2.4850947 17.86884,1.277765 12.490206,1.275191 Z" />
+    <ellipse
+       style="fill:#ca8949;fill-opacity:1;stroke:#615141;stroke-width:1.19221;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="path1951"
+       cx="12.558867"
+       cy="5.1517692"
+       rx="9.1512041"
+       ry="2.7462702" />
+    <path
+       id="path234-5-9"
+       style="fill:#975b20;fill-opacity:1;stroke:none;stroke-width:0.288291;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+       d="m 6.9757744,3.8730607 c -0.03234,-0.66393 -2.678481,0.33566 -2.786089,1.20417 -0.112132,0.90502 1.556108,1.76872 4.724292,2.16944 4.5904256,0.5806 7.0664996,-0.0503 6.7871896,-0.12042 -0.801623,-0.20123 -1.140212,-0.12789 -3.785398,-0.23699 -3.9240626,-0.16184 -5.8928466,-1.26078 -5.9259776,-1.82443 -0.03338,-0.56787 1.012725,-0.64279 0.985983,-1.19177 z" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#e7b079;stroke-width:1.41031;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="path8992"
+       d="m 85.84523,110.25788 c 0.343235,0.40469 -0.376173,0.66233 -0.67262,0.57048 -0.803353,-0.24892 -0.848778,-1.30784 -0.468339,-1.91572 0.680517,-1.08734 2.216302,-1.09509 3.158818,-0.3662 1.383181,1.06968 1.349866,3.13751 0.264058,4.40192 -1.44721,1.68526 -4.063285,1.60832 -5.645016,0.16192 -0.365302,-0.33405 -0.672869,-0.72992 -0.909192,-1.16473"
+       transform="matrix(-1.3637941,0.05626627,0.02387526,0.4079088,126.55735,-45.300063)" />
+    <path
+       style="fill:none;stroke:#615141;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="m 23.573201,8.5016907 c 2.001711,-2.09343 3.848973,-1.96897 4.867891,-0.19165 0.946135,1.6504 -0.0036,3.8677603 -1.74126,5.2299503 -1.873478,1.46864 -3.56966,1.89983 -5.686746,2.25801"
+       id="path3089" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#615141;stroke-width:0.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="m 23.238903,10.717911 c 0.751526,-0.7640603 1.525548,-0.8162703 2.019292,-0.3025 0.458495,0.47706 0.281463,1.32005 -0.764913,2.13467 -0.721171,0.56143 -1.518096,0.95121 -2.385549,1.17006"
+       id="path3089-3" />
+    <path
+       id="path1934-5"
+       style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:0.982798;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+       d="m 2.4652554,7.2830407 c 0.823017,6.3606903 3.98284,9.5791303 7.057751,11.7040603 -2.84782,-4.55527 -3.720597,-7.95882 -3.950846,-10.2497503 -1.422649,-0.49884 -1.892159,-0.74643 -3.106905,-1.45431 z" />
+  </g>
+</svg>
