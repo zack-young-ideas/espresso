@@ -23,16 +23,6 @@ const port = 3000;
 const command = process.argv[2];
 switch (command) {
   case 'init': {
-    // Initilize the settings file for the website.
-    const configFileData = `module.exports = {
-      databaseDriver: 'mongo',
-      // WARNING: Keep secretKey and secretPepper secret!
-      secretKey: '${utils.createRandomSecret()}',
-      secretPepper: '${utils.createRandomSecret()}',
-    };`;
-    const configFilename = path.join(__dirname, '../config/development.js');
-    fs.writeFileSync(configFilename, configFileData);
-
     // Compile the site's sole stylesheet from SASS files.
     if (!fs.existsSync(path.resolve(__dirname, '../public'))) {
       fs.mkdirSync(path.resolve(__dirname, '../public'));

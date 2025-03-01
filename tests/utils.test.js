@@ -33,6 +33,18 @@ describe('Settings class', () => {
       expect(settings.database.password).toBeNull();
       expect(settings.database.host).toBeNull();
     });
+
+    it('should use default settings if no settings file is given', () => {
+      const settings = new Settings();
+
+      expect(settings.secretKey).toBeTruthy();
+      expect(settings.secretPepper).toBeTruthy();
+      expect(settings.database.name).toBeNull();
+      expect(settings.database.driver).toBe('mongo');
+      expect(settings.database.username).toBeNull();
+      expect(settings.database.password).toBeNull();
+      expect(settings.database.host).toBeNull();
+    });
   });
 
   describe('databaseUri property', () => {
@@ -57,6 +69,19 @@ describe('Settings class', () => {
                         + '192.1.2.67:27017/new_database'
                         + '?authSource=admin');
       expect(settings.databaseUri).toBe(expectedString);
+    });
+
+    it('should return null if database settings are not set', () => {
+      const settings = new Settings();
+
+      expect(settings.secretKey).toBeTruthy();
+      expect(settings.secretPepper).toBeTruthy();
+      expect(settings.database.name).toBeNull();
+      expect(settings.database.driver).toBe('mongo');
+      expect(settings.database.username).toBeNull();
+      expect(settings.database.password).toBeNull();
+      expect(settings.database.host).toBeNull();
+      expect(settings.databaseUri).toBeNull();
     });
   });
 
