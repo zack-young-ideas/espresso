@@ -39,7 +39,6 @@ describe('Settings class', () => {
     it('should use default settings if no settings file is given', () => {
       const settings = new Settings();
 
-      console.log(settings);
       expect(settings.setup).toBe(false);
       expect(settings.secretKey).toBeTruthy();
       expect(settings.secretPepper).toBeTruthy();
