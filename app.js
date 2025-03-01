@@ -42,7 +42,7 @@ app.use(passport.authenticate('session'));
 passport.serializeUser((user, callback) => {
   process.nextTick(() => {
     callback(null, {
-      id: user._id, // eslint-disable-line
+      id: user._id,
       username: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
@@ -75,7 +75,7 @@ app.get('/blog/post/:slug', async (req, res) => {
   try {
     const blogPost = await database.getBlogPostBySlug(req.params.slug);
     res.render('public/blogPost', { post: blogPost });
-  } catch (error) {
+  } catch {
     res.status(404).render('public/404');
   }
 });

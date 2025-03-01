@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/espresso.svg" width="400" alt="Espresso Logo">
+  <img src="./assets/espresso.svg" width="350" alt="Espresso Logo">
 </p>
 
 <p align="center">

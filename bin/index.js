@@ -12,12 +12,11 @@ const path = require('path');
 const sass = require('sass');
 const webpack = require('webpack');
 
+const app = require('../app');
+const database = require('../lib/database');
+const settings = require('../config');
 const utils = require('../lib/utils');
 const webpackConfig = require('./webpack.config.js');
-
-let app;
-let database;
-let settings;
 
 const port = 3000;
 
@@ -51,15 +50,12 @@ switch (command) {
     break;
   }
   case 'run': {
-    app = require('../app');
-    database = require('../lib/database');
-    settings = require('../config');
 
     if (settings.databaseUri) {
       database.connect(settings.databaseSettings);
     }
     app.listen(port, () => {
-      console.log(`Listening on port ${port}...`); // eslint-disable-line
+      console.log(`Listening on port ${port}...`);
     });
     break;
   }
