@@ -40,7 +40,9 @@ switch (command) {
     break;
   }
   case 'run': {
-    database.connect(settings.databaseUri);
+    if (settings.databaseUri) {
+      database.connect(settings.databaseUri);
+    }
     app.listen(port, () => {
       console.log(`Listening on port ${port}...`);
     });
