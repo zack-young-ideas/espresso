@@ -8,11 +8,8 @@ const utils = require('../../lib/utils');
 
 jest.mock('../../lib/database');
 jest.mock('../../config');
-settings.updateDatabase = (connectionParams) => {
-  settings.databaseUri = utils.getMongoConnectionUri(connectionParams);
-};
-settings.completeSetup = () => {
-  settings.setup = true;
+settings.updateDatabase = (formObject) => {
+  settings.databaseUri = utils.getMongoConnectionUri(formObject);
 };
 
 let browser;
@@ -29,6 +26,10 @@ describe('Setup', () => {
   beforeEach(async () => {
     server = await app.listen(port);
     browser = await new Builder().forBrowser('chrome').build();
+    // Reset the setup and databaseUri properties of the settings
+    // object before each test; this ensures the setup process
+    // starts from the beginning each time.
+    settings.setup = false;
     settings.databaseUri = null;
   });
 
@@ -88,7 +89,9 @@ describe('Setup', () => {
     });
 
     // After the user enters the database login info...
-    await intializeDatabaseInfo('blog', 'admin', 'password', 'localhost');
+    await intializeDatabaseInfo(
+      'blog', 'admin', 'password', 'localhost:27017'
+    );
     // they are redirected to a page prompting them to create a
     // username and password for the admin user.
     await browser.wait(until.titleIs('Setup Admin User'), 3000);
