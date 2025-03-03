@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block stylesheets %}
+  <link href="/static/setup.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+  <div class="setup-background">
+    <div class="container-fluid">
+      <fieldset class="border rounded setup-form">
+        <p align="center">
+          <img src="/static/images/espresso.svg" />
+        </p>
+
+        {% block setup_form %}{% endblock %}
+
+      </fieldset>
+    </div>
+  </div>
+
+{% endblock %}

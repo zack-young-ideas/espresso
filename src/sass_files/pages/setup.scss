@@ -1,0 +1,20 @@
+/*
+Defines styles for the setup pages.
+*/
+
+.setup-background {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  padding: 3em;
+  background-color: #f6f3ee;
+
+  .container-fluid {
+    max-width: 760px;
+  }
+}
+
+.setup-form {
+  background-color: white;
+  padding: 2em;
+}
