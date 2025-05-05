@@ -57,6 +57,12 @@ passport.deserializeUser((user, callback) => {
 // Serve static files.
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
+// Serve TinyMCE files.
+app.use(
+  '/tinymce',
+  express.static(path.join(__dirname, 'node_modules', 'tinymce'))
+);
+
 // Configure the Nunjucks template engine.
 app.set('views', path.join(__dirname, 'views'));
 expressNunjucks.default(app, { noCache: true });
