@@ -31,7 +31,7 @@ describe('login page handler', () => {
   });
 });
 
-describe('log out handler', () => {
+describe('logout handler', () => {
   describe('GET requests', () => {
     it('should call logout() method of the request object', () => {
       const req = { logout: jest.fn() };
@@ -42,11 +42,10 @@ describe('log out handler', () => {
       handlers.logout.get(req, res);
 
       expect(req.logout).toHaveBeenCalledTimes(1);
-      expect(req.logout).toHaveBeenCalledWith();
     });
 
     it('should redirect to login page', () => {
-      const req = { logout: jest.fn() };
+      const req = { logout: (callback) => callback(null) };
       const res = { redirect: jest.fn() };
 
       handlers.logout.get(req, res);
