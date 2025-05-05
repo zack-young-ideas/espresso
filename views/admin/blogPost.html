@@ -8,10 +8,6 @@
   {% endif %}
 {% endblock %}
 
-{% block stylesheets %}
-  <link href="/static/js/tinymce.css" rel="stylesheet" />
-{% endblock %}
-
 {% block main %}
   <div class="modal" id="modal" style="display:none;" tabindex="-1">
     <div class="modal-dialog">
@@ -126,9 +122,8 @@
 {% endblock %}
 
 {% block scripts %}
-  <script type="application/javascript" src="/static/js/tinymce.bundle.js">
-  </script>
-
-  <script src="/static/js/slugAutoFill.bundle.js"></script>
+  <script src="/tinymce/tinymce.min.js"></script>
   <script src="/static/js/deleteButton.bundle.js"></script>
+  <script src="/static/js/editor.bundle.js"></script>
+  <script src="/static/js/slugAutoFill.bundle.js"></script>
 {% endblock %}
