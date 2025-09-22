@@ -15,7 +15,6 @@ const webpack = require('webpack');
 const app = require('../app');
 const database = require('../lib/database');
 const settings = require('../config');
-const utils = require('../lib/utils');
 const webpackConfig = require('./webpack.config.js');
 
 const port = 3000;

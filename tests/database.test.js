@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const settings = require('../config');
 const database = require('../lib/database');
 const models = require('../lib/models');
-const utils = require('../lib/utils');
 
 jest.mock('bcrypt');
 jest.mock('../lib/models');
