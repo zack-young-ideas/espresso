@@ -22,13 +22,20 @@ const port = 3000;
 const command = process.argv[2];
 switch (command) {
   case 'init': {
-    // Compile the site's sole stylesheet from SASS files.
+    // Compile the site's stylesheets from SASS files.
     if (!fs.existsSync(path.resolve(__dirname, '../public'))) {
       fs.mkdirSync(path.resolve(__dirname, '../public'));
     }
-    const sassFilename = path.join(__dirname, '../public/styles.css');
-    const sassOutput = sass.compile('./src/sass_files/main.scss');
-    fs.writeFileSync(sassFilename, sassOutput.css);
+    const sassFiles = [
+      'styles.scss', 'pages/adminLogin.scss', 'pages/setup.scss'
+    ];
+    sassFiles.forEach((file) => {
+      const filename = file.split('/').pop().replace('scss', 'css');
+      const inputPath = path.join(__dirname, `../src/sass_files/${file}`);
+      const outputPath = path.join(__dirname, `../public/${filename}`);
+      const sassObject = sass.compile(inputPath);
+      fs.writeFileSync(outputPath, sassObject.css);
+    });
 
     // Use Webpack to compile the site's frontend JavaScript files.
     webpack(webpackConfig, (err) => {
